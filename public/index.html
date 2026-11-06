@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Vault Legacy (Smart Contract DApp)</title>
+    <!-- โหลดไลบรารี ethers.js ผ่าน CDN เข้ามาใช้งานในเบราว์เซอร์โดยตรง -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 40px; max-width: 800px; margin: auto; background-color: #f9f9f9; }
+        .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        button { padding: 12px 24px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .btn-danger { background-color: #dc3545; }
+        .btn-danger:hover { background-color: #b02a37; }
+        .btn-success { background-color: #28a745; }
+        .btn-success:hover { background-color: #218838; }
+        .btn-warning { background-color: #ffc107; color: #212529; }
+        .btn-warning:hover { background-color: #e0a800; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .connected { color: green; font-weight: bold; }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        input { width: 100%; padding: 8px; margin: 6px 0 12px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .heir-row { display: flex; gap: 10px; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <div class="header-flex">
+        <h1>Digital Vault Legacy (Smart Contract DApp)</h1>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <!-- 🏠 เพิ่มปุ่มลิงก์กลับหน้าหลัก (Home) -->
+            <a href="/pages/homel.html" style="text-decoration: none;">
+                <button class="btn-secondary" style="padding: 8px 16px; font-size: 14px;">🏠 กลับหน้าหลัก</button>
+            </a>
+            <!-- ปุ่มเปิด/ปิดฟอร์มปลดล็อกด่วน (วางไว้ข้างปุ่ม Log out) -->
+            <button id="toggleEmergencyBtn" onclick="toggleEmergencyForm()" class="btn-warning" style="display: none; padding: 8px 16px; font-size: 14px;">🚨 ปลดล็อกมรดก</button>
+            <!-- ปุ่ม Log out (ซ่อนไว้จนกว่าจะเชื่อมต่อกระเป๋า) -->
+            <button id="logoutBtn" onclick="logoutWallet()" class="btn-danger" style="display: none; padding: 8px 16px; font-size: 14px;">Log out</button>
+        </div>
+    </div>
+    
+    <!-- ส่วนปุ่ม Login -->
+    <div id="login-section">
+        <button id="connectBtn" onclick="connectWallet()">Login with MetaMask</button>
+    </div>
+
+    <!-- ส่วนแสดงผลข้อมูลหลัง Login -->
+    <div id="dashboard-section" style="display: none;">
+        <p class="connected">Connected Wallet: <span id="walletAddress"></span></p>
+        <hr />
+        
+        <!-- 0. ฟอร์มปลดล็อกมรดกด่วน (ช่องว่างปลอดภัย ต้องกรอกเองใหม่ทุกครั้ง) -->
+        <div id="emergency-card" class="card" style="display: none; border: 2px dashed #ffc107; background-color: #fffdf5;">
+            <h3 style="color: #856404;">🚨 ฟังก์ชันปลดล็อกมรดกฉุกเฉิน (Instant Distribution)</h3>
+            <p style="font-size: 14px; color: #666;">ใช้สำหรับกรอกข้อมูลเพื่อเบิกถอนมรดก 100% ของเจ้าของ Vault เป้าหมาย (ห้ามใช้กระเป๋าเจ้าของ Vault มากดเอง)</p>
+            
+            <label>Vault Owner Address (แอดเดรสเจ้าของกองทุนที่ต้องการปลดล็อก):</label>
+            <input type="text" id="emergencyVaultOwner" placeholder="0x..." autocomplete="off" />
+
+            <label>User Key (รหัสลับผู้ใช้):</label>
+            <input type="password" id="emergencyUserKey" placeholder="รหัส User Key 8-12 ตัวอักษร" autocomplete="new-password" />
+            
+            <label>Pentax Message (ข้อความลับ/รหัสยืนยัน):</label>
+            <input type="text" id="emergencyPentax" placeholder="ข้อความ Pentax" autocomplete="off" />
+            
+            <button onclick="handleDistributeInstant()" class="btn-danger">ยืนยันปลดล็อกและกระจายมรดกทันที</button>
+        </div>
+
+        <!-- 1. ฟอร์มตั้งค่าความปลอดภัยครั้งแรก (แสดงเฉพาะตอนบัญชียังไม่เคยเซ็ตค่า) -->
+        <div id="setup-security-card" class="card" style="display: none;">
+            <h3>🔐 ตั้งค่าความปลอดภัยเริ่มต้น (ทำครั้งเดียว)</h3>
+            <label>User Key (ความยาว 8-12 ตัวอักษร):</label>
+            <input type="password" id="setupUserKey" placeholder="เช่น mysecret123" autocomplete="new-password" />
+            
+            <label>Pentax Message (ข้อความลับ/รหัสยืนยัน ไม่เกิน 50 ตัวอักษร):</label>
+            <input type="text" id="setupPentax" placeholder="เช่น ข้อความฉุกเฉินทายาท" autocomplete="off" />
+            
+            <button onclick="handleSetupSecurity()" class="btn-success">บันทึกความปลอดภัย</button>
+        </div>
+
+        <!-- 2. แดชบอร์ดสถานะ Vault เดิมของคุณ -->
+        <div class="card">
+            <h3>Vault Status</h3>
+            <p><strong>ยอดเงินกองทุนมรดก:</strong> <span id="poolBalance">0</span> ETH</p>
+            <p><strong>การใช้งานล่าสุด (Last Active):</strong> <span id="lastActive">-</span></p>
+            <p><strong>สถานะสเตจเวลา (Stage):</strong> <span id="stage">0</span></p>
+            <hr style="margin: 15px 0;">
+            <div>
+                <button id="pingBtn" onclick="handlePing()">Check-in (Ping Activity) รีเซ็ตเวลา</button>
+            </div>
+        </div>
+
+        <!-- 3. ฟอร์มฝากเงินเข้าพูล -->
+        <div class="card">
+            <h3>💰 ฝากเงินเข้ากองทุนมรดก (Deposit Pool)</h3>
+            <p style="font-size: 13px; color: #666;">*ระบบหักค่าธรรมเนียมอัตโนมัติตามยอดฝากแบบขั้นบันได (1% - 5%)</p>
+            
+            <!-- 🌟 เพิ่มช่องแสดงยอดเงินสะสมในกองทุนปัจจุบันฝั่งซ้ายให้เห็นชัดเจน 🌟 -->
+            <p style="background: #f1f3f5; padding: 10px; border-radius: 4px; font-size: 14px; margin-bottom: 12px; border-left: 4px solid #007bff;">
+                <strong>ยอดเงินสะสมในกองทุนปัจจุบัน:</strong> <span id="currentPoolDisplay" style="color: #007bff; font-weight: bold;">0</span> ETH
+            </p>
+
+            <label>จำนวน ETH ที่ต้องการฝาก:</label>
+            <input type="number" id="depositAmount" step="0.01" placeholder="0.1" autocomplete="off" />
+            <button onclick="handleDeposit()" class="btn-success">ฝากเงินเข้า Pool</button>
+        </div>
+
+        <!-- 4. ฟอร์มจัดการ/แก้ไขรายชื่อทายาท -->
+        <div class="card">
+            <h3>👥 จัดการ/แก้ไขรายชื่อทายาท (Total = 100%)</h3>
+            <div id="heirListContainer">
+                <!-- รายชื่อทายาทเฉพาะของ Vault ตัวเองจะถูกโหลดมาแสดงที่นี่ -->
+            </div>
+            <button onclick="addHeirRow()" style="background-color: #6c757d; margin-bottom: 10px; font-size: 13px; padding: 6px 12px;">+ เพิ่มทายาท</button>
+            <br>
+            <button onclick="handleUpdateHeirs()" class="btn-success">อัปเดตรายชื่อทายาท</button>
+        </div>
+    </div>
+
+    <script>
+        // Contract Address ที่ Deploy จริง
+        const CONTRACT_ADDRESS = "0xfCdc539BB6Cd3796d64cb835AB7029187d23ED69";
+
+        // ABI ที่รองรับฟังก์ชันทั้งหมด
+        const CONTRACT_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_companyWallet",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"name": "ActivityPinged",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint8",
+				"name": "stage",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "transferredAmount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "serviceFeePaid",
+				"type": "uint256"
+			}
+		],
+		"name": "AutomatedStageExecuted",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "depositToPool",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_vaultOwner",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_inputKey",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_inputPentax",
+				"type": "string"
+			}
+		],
+		"name": "distributeInstant",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "totalHeirs",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "serviceFeePaid",
+				"type": "uint256"
+			}
+		],
+		"name": "HeirsUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "totalAmount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "serviceFeePaid",
+				"type": "uint256"
+			}
+		],
+		"name": "InstantDistribution",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "pingActivity",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "netAmount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "serviceFeePaid",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "totalPool",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "feePercent",
+				"type": "uint256"
+			}
+		],
+		"name": "PoolDeposited",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_vaultOwner",
+				"type": "address"
+			}
+		],
+		"name": "processAutomatedInheritance",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "SecurityInitialized",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable[]",
+				"name": "_wallets",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_percentages",
+				"type": "uint256[]"
+			}
+		],
+		"name": "setOrUpdateHeirs",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_userKey",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_pentax",
+				"type": "string"
+			}
+		],
+		"name": "setupSecurity",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "checkSecuritySet",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "companyWallet",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_heirWallet",
+				"type": "address"
+			}
+		],
+		"name": "getHeirAllocation",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "getHeirs",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address payable",
+						"name": "wallet",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "percentage",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct InheritanceManager.Heir[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "vaults",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "hashedUserKey",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "hashedPentax",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bool",
+				"name": "isSecuritySet",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "depositPool",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "isDistributed",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastActiveTimestamp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "inheritanceStage",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bool",
+				"name": "isTrustActive",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+        let currentAccount = "";
+
+        // 🌟 ตรวจสอบสถานะ Auto-login: หากเคยกด Log out ไปแล้ว จะไม่มีการดึงข้อมูลอัตโนมัติเด็ดขาด 🌟
+        async function checkAutoLogin() {
+            const isLoggedOut = localStorage.getItem('bblock_is_logged_out');
+            const savedWallet = localStorage.getItem('user_wallet_address');
+
+            if (isLoggedOut === 'true' || !savedWallet) {
+                logoutWallet();
+                return;
+            }
+
+            if (window.ethereum) {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0 && accounts[0].toLowerCase() === savedWallet.toLowerCase() && isLoggedOut !== 'true') {
+                        currentAccount = accounts[0];
+                        updateUI(true);
+                        fetchContractData(currentAccount);
+                    } else {
+                        logoutWallet();
+                    }
+                } catch (err) {
+                    console.error("Auto login error:", err);
+                    logoutWallet();
+                }
+            } else {
+                logoutWallet();
+            }
+        }
+
+        // สั่งให้ตรวจสอบ Auto-login ทันทีเมื่อโหลดหน้าเว็บเสร็จ
+        document.addEventListener("DOMContentLoaded", () => {
+            checkAutoLogin();
+        });
+
+        // 🌟 [แก้ไขสำคัญ] ฟังก์ชัน Login: บังคับเรียกหน้าต่าง MetaMask ให้เลือกบัญชีใหม่ทุกครั้งที่กด 🌟
+        async function connectWallet() {
+            if (!window.ethereum) {
+                alert("กรุณาติดตั้ง MetaMask ก่อนใช้งาน");
+                return;
+            }
+            try {
+                // ล้างสถานะ Log out ทิ้ง
+                localStorage.removeItem('bblock_is_logged_out');
+
+                // บังคับให้ MetaMask เด้งหน้าต่างขอสิทธิ์เลือกบัญชีใหม่ทุกครั้ง
+                await window.ethereum.request({
+                    method: "wallet_requestPermissions",
+                    params: [{ eth_accounts: {} }]
+                });
+
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                currentAccount = accounts[0];
+                
+                // บันทึก Address ปัจจุบันลงในเครื่อง
+                localStorage.setItem('user_wallet_address', currentAccount);
+
+                updateUI(true);
+                fetchContractData(currentAccount);
+            } catch (err) {
+                console.error("User rejected connection or error:", err);
+            }
+        }
+
+        // ฟังก์ชัน Log out: ล้างข้อมูลกระเป๋าและปักธงล็อกเอาท์ถาวร
+        function logoutWallet() {
+            currentAccount = "";
+            localStorage.removeItem('user_wallet_address');
+            localStorage.setItem('bblock_is_logged_out', 'true');
+            updateUI(false);
+        }
+
+        // ฟังก์ชันควบคุมการแสดงผล UI
+        function updateUI(isConnected) {
+            if (isConnected) {
+                document.getElementById("login-section").style.display = "none";
+                document.getElementById("dashboard-section").style.display = "block";
+                document.getElementById("logoutBtn").style.display = "inline-block";
+                document.getElementById("toggleEmergencyBtn").style.display = "inline-block";
+                document.getElementById("walletAddress").innerText = currentAccount;
+            } else {
+                document.getElementById("login-section").style.display = "block";
+                document.getElementById("dashboard-section").style.display = "none";
+                document.getElementById("logoutBtn").style.display = "none";
+                document.getElementById("toggleEmergencyBtn").style.display = "none";
+                document.getElementById("emergency-card").style.display = "none";
+                document.getElementById("walletAddress").innerText = "";
+                document.getElementById("poolBalance").innerText = "0";
+                document.getElementById("currentPoolDisplay").innerText = "0";
+                document.getElementById("lastActive").innerText = "-";
+                document.getElementById("stage").innerText = "0";
+                document.getElementById("setup-security-card").style.display = "none";
+                
+                document.getElementById("setupUserKey").value = "";
+                document.getElementById("setupPentax").value = "";
+            }
+        }
+
+        // ฟังก์ชันเปิด-ปิดฟอร์มปลดล็อกด่วน
+        function toggleEmergencyForm() {
+            const card = document.getElementById("emergency-card");
+            card.style.display = card.style.display === "none" ? "block" : "none";
+        }
+
+        // ฟังก์ชันดึงข้อมูลจาก Smart Contract
+        
+async function fetchContractData(userAcc) {
+    try {
+        document.getElementById("setupUserKey").value = "";
+        document.getElementById("setupPentax").value = "";
+
+        const provider = new ethers.BrowserProvider(window.ethereum);
+
+        // ตรวจสอบเครือข่ายที่กำลังเชื่อมต่อ
+        const network = await provider.getNetwork();
+        console.log("Connected Chain ID:", network.chainId.toString());
+        console.log("Contract Address:", CONTRACT_ADDRESS);
+
+        // ตรวจสอบว่ามี Smart Contract อยู่ที่ Address นี้หรือไม่
+        const code = await provider.getCode(CONTRACT_ADDRESS);
+
+        console.log("Contract Bytecode:", code);
+
+        if (code === "0x") {
+            throw new Error(
+                "ไม่พบ Smart Contract ที่ Address นี้บนเครือข่ายปัจจุบัน " +
+                "กรุณาตรวจสอบ Network และ CONTRACT_ADDRESS"
+            );
+        }
+
+        const contract = new ethers.Contract(
+            CONTRACT_ADDRESS,
+            CONTRACT_ABI,
+            provider
+        );
+
+        // ตรวจสอบฟังก์ชันความปลอดภัยแยกจากการดึงข้อมูลส่วนอื่น
+        try {
+            const securitySet =
+                await contract.checkSecuritySet(userAcc);
+
+            document.getElementById("setup-security-card").style.display =
+                securitySet ? "none" : "block";
+
+        } catch (err) {
+            console.error(
+                "ตรวจสอบ checkSecuritySet ไม่สำเร็จ:",
+                err
+            );
+
+            document.getElementById("setup-security-card").style.display =
+                "none";
+
+            throw new Error(
+                "เรียก checkSecuritySet ไม่สำเร็จ " +
+                "กรุณาตรวจสอบ ABI และเวอร์ชัน Smart Contract ที่ Deploy"
+            );
+        }
+
+        // ดึงข้อมูล Vault
+        const vaultData = await contract.vaults(userAcc);
+
+        const pool = vaultData[3];
+        const activeTime = vaultData[5];
+        const currentStage = vaultData[6];
+
+        const formattedPool = ethers.formatEther(pool);
+
+        document.getElementById("poolBalance").innerText = formattedPool;
+        document.getElementById("currentPoolDisplay").innerText =
+            formattedPool;
+
+        document.getElementById("lastActive").innerText =
+            activeTime > 0
+                ? new Date(Number(activeTime) * 1000).toLocaleString()
+                : "ยังไม่มีการเช็กอิน";
+
+        document.getElementById("stage").innerText =
+            currentStage.toString();
+
+        // ดึงรายชื่อทายาท
+        const heirs = await contract.getHeirs(userAcc);
+        const container = document.getElementById("heirListContainer");
+
+        container.innerHTML = "";
+
+        if (heirs.length > 0) {
+            heirs.forEach(heir => {
+                const row = document.createElement("div");
+                row.className = "heir-row";
+                row.style.marginTop = "8px";
+
+                const addressInput = document.createElement("input");
+                addressInput.type = "text";
+                addressInput.value = heir.wallet;
+                addressInput.placeholder =
+                    "Wallet Address ทายาท (0x...)";
+                addressInput.className = "heirAddress";
+                addressInput.style.flex = "3";
+                addressInput.autocomplete = "off";
+
+                const percentInput = document.createElement("input");
+                percentInput.type = "number";
+                percentInput.value = heir.percentage.toString();
+                percentInput.placeholder = "เปอร์เซ็นต์ (%)";
+                percentInput.className = "heirPercent";
+                percentInput.style.flex = "1";
+                percentInput.autocomplete = "off";
+
+                row.appendChild(addressInput);
+                row.appendChild(percentInput);
+                container.appendChild(row);
+            });
+        } else {
+            addHeirRow();
+        }
+
+        console.log("โหลดข้อมูล Vault สำเร็จ");
+
+    } catch (err) {
+        console.error("Error fetching data:", err);
+    }
+}
+
+        // ฟังก์ชันตั้งค่าความปลอดภัยครั้งแรก
+        async function handleSetupSecurity() {
+            const userKey = document.getElementById("setupUserKey").value;
+            const pentax = document.getElementById("setupPentax").value;
+            try {
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+                const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+                const tx = await contract.setupSecurity(userKey, pentax);
+                await tx.wait();
+                alert("ตั้งค่าความปลอดภัยสำเร็จ!");
+                fetchContractData(currentAccount);
+            } catch (err) {
+                console.error(err);
+                alert("ตั้งค่าไม่สำเร็จ: " + (err.reason || err.message));
+            }
+        }
+
+        // ฟังก์ชันกดเช็กอิน (Ping Activity)
+        async function handlePing() {
+            const pingBtn = document.getElementById("pingBtn");
+            try {
+                pingBtn.innerText = "กำลังทำรายการ...";
+                pingBtn.disabled = true;
+
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+                const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+                const tx = await contract.pingActivity();
+                await tx.wait();
+                
+                alert("เช็กอินสำเร็จ! รีเซ็ตเวลานับถอยหลังเรียบร้อย");
+                fetchContractData(currentAccount);
+            } catch (err) {
+                console.error(err);
+                alert("เช็กอินไม่สำเร็จ: " + (err.reason || err.message));
+            } finally {
+                pingBtn.innerText = "Check-in (Ping Activity) รีเซ็ตเวลา";
+                pingBtn.disabled = false;
+            }
+        }
+
+        // ฟังก์ชันฝากเงินเข้าพูล
+        async function handleDeposit() {
+            const amount = document.getElementById("depositAmount").value;
+            if (!amount || amount <= 0) {
+                alert("กรุณากรอกจำนวน ETH ให้ถูกต้อง");
+                return;
+            }
+            try {
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+                const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+                const tx = await contract.depositToPool({ value: ethers.parseEther(amount.toString()) });
+                await tx.wait();
+
+                alert("ฝากเงินเข้ากองทุนสำเร็จ!");
+                document.getElementById("depositAmount").value = "";
+                fetchContractData(currentAccount);
+            } catch (err) {
+                console.error(err);
+                alert("ฝากเงินไม่สำเร็จ: " + (err.reason || err.message));
+            }
+        }
+
+        // เพิ่มแถวกรอกทายาท
+        function addHeirRow() {
+            const container = document.getElementById("heirListContainer");
+            const row = document.createElement("div");
+            row.className = "heir-row";
+            row.style.marginTop = "8px";
+            row.innerHTML = `
+                <input type="text" placeholder="Wallet Address ทายาท (0x...)" class="heirAddress" style="flex: 3;" autocomplete="off" />
+                <input type="number" placeholder="เปอร์เซ็นต์ (%)" class="heirPercent" style="flex: 1;" autocomplete="off" />
+            `;
+            container.appendChild(row);
+        }
+
+        // ฟังก์ชันอัปเดตและแก้ไขรายชื่อทายาท
+        async function handleUpdateHeirs() {
+            const addressInputs = document.querySelectorAll(".heirAddress");
+            const percentInputs = document.querySelectorAll(".heirPercent");
+            
+            let wallets = [];
+            let percentages = [];
+            let total = 0;
+
+            for (let i = 0; i < addressInputs.length; i++) {
+                const addr = addressInputs[i].value.trim();
+                const pct = Number(percentInputs[i].value);
+
+                if (addr || pct > 0) {
+                    if (!ethers.isAddress(addr)) {
+                        alert(`Wallet Address ของทายาทแถวที่ ${i + 1} ไม่ถูกต้อง`);
+                        return;
+                    }
+                    if (pct <= 0) {
+                        alert(`เปอร์เซ็นต์ของทายาทแถวที่ ${i + 1} ต้องมากกว่า 0%`);
+                        return;
+                    }
+
+                    wallets.push(addr);
+                    percentages.push(pct);
+                    total += pct;
+                }
+            }
+
+            if (total !== 100) {
+                alert("เปอร์เซ็นต์รวมกันต้องเท่ากับ 100% (ปัจจุบัน: " + total + "%)");
+                return;
+            }
+
+            try {
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+                const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+                const tx = await contract.setOrUpdateHeirs(wallets, percentages);
+                await tx.wait();
+                alert("อัปเดตรายชื่อทายาทสำเร็จ!");
+                fetchContractData(currentAccount);
+            } catch (err) {
+                console.error(err);
+                alert("อัปเดตทายาทไม่สำเร็จ: " + (err.reason || err.message));
+            }
+        }
+
+        // ฟังก์ชันสั่งปลดล็อกด่วน
+        async function handleDistributeInstant() {
+            const ownerAddr = document.getElementById("emergencyVaultOwner").value.trim();
+            const userKey = document.getElementById("emergencyUserKey").value;
+            const pentax = document.getElementById("emergencyPentax").value;
+
+            if (!ownerAddr || !userKey || !pentax) {
+                alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+                return;
+            }
+
+            try {
+                const provider = new ethers.BrowserProvider(window.ethereum);
+                const signer = await provider.getSigner();
+                const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+                const tx = await contract.distributeInstant(ownerAddr, userKey, pentax);
+                await tx.wait();
+
+                alert("ปลดล็อกมรดกและกระจายเงินให้ทายาทสำเร็จเรียบร้อย!");
+                document.getElementById("emergency-card").style.display = "none";
+                
+                document.getElementById("emergencyVaultOwner").value = "";
+                document.getElementById("emergencyUserKey").value = "";
+                document.getElementById("emergencyPentax").value = "";
+                fetchContractData(currentAccount);
+            } catch (err) {
+                console.error(err);
+                alert("ปลดล็อกไม่สำเร็จ: " + (err.reason || err.message));
+            }
+        }
+
+        // ตรวจจับการเปลี่ยนบัญชีใน MetaMask อัตโนมัติ
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    logoutWallet();
+                } else {
+                    currentAccount = accounts[0];
+                    localStorage.setItem('user_wallet_address', currentAccount);
+                    if (document.getElementById("dashboard-section").style.display === "block") {
+                        document.getElementById("walletAddress").innerText = currentAccount;
+                        fetchContractData(currentAccount);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

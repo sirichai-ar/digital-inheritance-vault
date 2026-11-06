@@ -1,0 +1,373 @@
+/* ===================================================
+   HEADER & NAVBAR CSS RESET (แก้ไขจุดที่ใช้งานไม่ได้)
+   =================================================== */
+/* รีเซ็ตค่าระยะขอบพื้นฐานทั้งหมด */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+/* คุมแถบ Navbar ทั้งหมดให้อยู่ในเส้นตรงและกระจายซ้าย-ขวา */
+.navbar.dashboard-navbar {
+    display: flex;
+    justify-content: space-between; /* จัดโลโก้ไว้ซ้ายสุด เมนูไว้ขวาสุด */
+    align-items: center;            /* จัดให้อยู่กึ่งกลางแนวตั้งเป๊ะๆ */
+    padding: 15px 40px;            /* ระยะห่างด้านขอบบนล่าง และซ้ายขวา */
+    background-color: #ffffff;      /* พื้นหลังสีขาวตาม Figma */
+    border-bottom: 1px solid #f1f5f9; /* เส้นคั่นบางๆ ด้านล่าง */
+    width: 100%;
+    position: relative;
+    z-index: 1000;
+}
+
+/* จัดการพื้นที่ของกล่องโลโก้ฝั่งซ้าย */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* บีบขนาดรูปภาพโลโก้ไม่ให้ใหญ่เกินไป */
+.logo-img {
+    height: 35px; /* ปรับขนาดความสูงให้พอดีสายตา */
+    width: auto;
+    object-fit: contain;
+}
+
+/* จัดระเบียบกลุ่มเมนูลิงก์และปุ่มไอคอนฝั่งขวา */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px; /* ระยะห่างระหว่างเมนูแต่ละตัว */
+}
+
+/* สไตล์ของตัวอักษรเมนูทั่วไป (Home, Digital Vault Legacy, Setting) */
+.nav-links a.nav-item {
+    text-decoration: none;
+    color: #64748b; /* สีเทาพาสเทลตอนยังไม่ได้เลือก */
+    font-size: 15px;
+    font-weight: 400;
+    transition: color 0.2s ease-in-out;
+}
+
+/* สไตล์ของเมนูหน้าปัจจุบัน (Active) ให้เป็นสีดำเข้มหนาชัดเจน */
+.nav-links a.nav-item.active {
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+/* ปุ่มไอคอนโหมดมืดและเปลี่ยนภาษา (รูปพระจันทร์/รูปโลก) */
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #1e293b;
+    padding: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1); /* ขยายใหญ่ขึ้นนิดหน่อยตอนเมาส์ชี้ */
+}
+
+/* ระยะห่างของตัว Content ด้านล่างไม่ให้ขึ้นไปเบียดสอย Navbar */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+
+/* ==========================================
+   EXCLUSIVE STYLES FOR HOMEL.HTML (DASHBOARD)
+   ========================================== */
+.dashboard-page {
+    background-color: #ffffff;
+}
+
+.dashboard-navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* บังคับคลาส Active ของหน้านี้ให้เป็นสีดำเข้มตามรูปบรีฟ */
+.dashboard-navbar .nav-links a.nav-item.active {
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 24px;
+}
+
+.dashboard-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.user-id-text {
+    font-size: 16px;
+    color: #334155;
+    margin-top: 2px;
+}
+
+/* ส่วนของพอร์ตวงกลม */
+.portfolio-chart-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.owner-name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.chart-render-area {
+    position: relative;
+    width: 250px;
+    height: 250px;
+}
+
+.absolute-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.refresh-timestamp {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 8px;
+}
+
+.slider-dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.slider-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #cbd5e1;
+}
+
+.slider-dots .dot.active {
+    background-color: #475569;
+}
+
+/* กล่องรายการทรัพย์สินใหญ่ตรงกลาง */
+.asset-summary-card {
+    background: linear-gradient(135deg, rgba(203, 197, 234, 0.6), rgba(183, 175, 219, 0.6));
+    border-radius: 16px;
+    padding: 20px 30px;
+    margin: 30px auto;
+    max-width: 750px;
+    border: 1px solid rgba(255,255,255,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.card-title-text {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e1b4b;
+    margin-bottom: 12px;
+}
+
+.assets-list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 16px;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.btc-color { color: #6366f1; font-weight: 500; }
+.eth-color { color: #b91c1c; font-weight: 500; }
+
+/* แถบชุดการ์ดเหรียญ Slider ด้านล่างสุด */
+.crypto-carousel-wrapper {
+    margin-top: 30px;
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.carousel-track {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.carousel-track::-webkit-scrollbar { display: none; } /* ซ่อนแถบเลื่อนปกติ */
+
+.coin-status-card {
+    background: linear-gradient(to bottom, #9333ea, #7c3aed);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    min-width: 125px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.25);
+}
+
+.coin-logo { width: 22px; height: 22px; margin-bottom: 6px; }
+.coin-logo.xrp-bg { background-color: #000; border-radius: 50%; }
+
+.coin-title { font-size: 11px; color: #f3e8ff; }
+.coin-title .symbol-tag { font-weight: 700; color: #ffffff; }
+.coin-fiat-value { font-size: 10px; margin-top: 2px; font-weight: 300; }
+
+.change-tag { font-size: 10px; font-weight: 700; margin-top: 2px; }
+.change-tag.pos { color: #4ade80; }
+.change-tag.neg { color: #f87171; }
+
+.btn-next-carousel {
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    font-size: 11px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* กล่องคุมการ์ดเหรียญทั้งหมด */
+.carousel-track {
+    display: grid;
+    /* แบ่งเป็น 7 คอลัมน์เท่าๆ กัน (สำหรับเหรียญ 7 อันแรกในแถวแรก) */
+    grid-template-columns: repeat(7, minmax(120px, 1fr)); 
+    gap: 12px; /* ระยะห่างระหว่างการ์ด */
+    width: 100%;
+    padding: 10px 0;
+    overflow-x: visible; /* ปิดการเลื่อนทะลุจอไปด้านขวา */
+}
+
+/* ตกแต่งสไตล์ของการ์ดแต่ละใบให้ยืดหยุ่นตามแถว */
+.coin-status-card {
+    background: linear-gradient(to bottom, #9333ea, #7c3aed);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    width: 100%; /* ให้ยืดเต็มช่อง Grid */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.25);
+}
+
+/* จัดตำแหน่งกล่องคลุมทั้งหมดและปุ่ม NEXT */
+.crypto-carousel-wrapper {
+    margin-top: 30px;
+    position: relative;
+    padding-bottom: 40px; /* เพิ่มพื้นที่ด้านล่างเผื่อเวลาเหรียญปัดลงมาหลายๆ แถว */
+}
+
+/* ปุ่ม NEXT/BACK ด้านล่างสุด */
+.btn-next-carousel {
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    font-size: 11px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* สำหรับโหมดมืด (Dark Mode) คุมสีปุ่ม NEXT */
+body.dark-mode .btn-next-carousel {
+    color: #ffffff;
+}
+
+/* 📱 แถม: เผื่อกรณีเปิดบนหน้าจอโน้ตบุ๊กเล็กหรือแท็บเล็ต ให้มันปัดแถวอัตโนมัติตามความกว้างจอ */
+@media (max-width: 1024px) {
+    .carousel-track {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+}
+
+/* ===================================================
+   แก้ไขจุดบกพร่อง: บังคับข้อมูล Account ย้ายไปชิดขอบซ้ายสุด
+   =================================================== */
+.user-profile-meta-left {
+    text-align: left; /* บังคับเนื้อหาด้านในทั้งหมดชิดซ้าย */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 30px auto; /* เพิ่มระยะห่างเว้นบรรทัดด้านล่าง */
+    padding-left: 20px; /* ขยับเยื้องเข้ามานิดหน่อยให้ตรงกับแนวแนวแกน Navbar */
+}
+
+.dashboard-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.user-id-text {
+    font-size: 16px;
+    color: #475569;
+    margin-top: 2px;
+}
+
+/* ===================================================
+   ระบบรองรับโหมดมืด (Dark Mode คุมสีตอนกดปุ่มพระจันทร์)
+   =================================================== */
+body.dark-mode {
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+
+body.dark-mode .navbar.dashboard-navbar {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+body.dark-mode .nav-links a.nav-item,
+body.dark-mode .icon-btn {
+    color: #cbd5e1;
+}
+
+body.dark-mode .nav-links a.nav-item.active {
+    color: #ffffff !important;
+}
+
+body.dark-mode .dashboard-title,
+body.dark-mode .owner-name,
+body.dark-mode .absolute-center-text,
+body.dark-mode .btn-next-carousel {
+    color: #ffffff;
+}
+
+body.dark-mode .user-id-text,
+body.dark-mode .refresh-timestamp {
+    color: #94a3b8;
+}
+
+/* สีของปุ่มดวงอาทิตย์สีเหลืองตอนเปลี่ยนโหมด */
+.text-yellow-400 {
+    color: #f59e0b !important;
+}
+

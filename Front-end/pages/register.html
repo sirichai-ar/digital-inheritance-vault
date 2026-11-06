@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBlockWallet - Register</title>
+    <link rel="icon" type="image/png" href="/photo/B-removebg-preview-r.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../src/stylesII.css">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+        .tab-btn.active {
+            border-bottom-color: #9333ea;
+            color: #9333ea;
+            font-weight: 600;
+        }
+        .btn-disabled {
+            background-color: #cbd5e1 !important;
+            color: #94a3b8 !important;
+            border-color: #cbd5e1 !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between">
+
+    <div id="app-header" class="w-full"></div>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-[640px] bg-white rounded-2xl p-10 md:p-12 shadow-2xl relative text-black text-center">
+            
+            <h1 class="text-3xl font-semibold tracking-wide text-gray-800 mb-8">Register</h1>
+            
+            <form class="space-y-4 max-w-[460px] mx-auto" id="register-form">
+                <div>
+                    <input type="text" placeholder="ชื่อ" required class="w-full bg-[#e0e0e0] border border-gray-400/50 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-600 transition-all placeholder-gray-500 text-gray-800 shadow-inner">
+                </div>
+                
+                <!-- โซนวันเกิดและคำนวณอายุ -->
+                <div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="date" id="birthdate" required class="w-full bg-[#e0e0e0] border border-gray-400/50 rounded-lg px-3 py-2.5 text-xs md:text-sm focus:outline-none focus:border-purple-600 transition-all text-gray-800 shadow-inner text-center">
+                        <input type="text" id="age" placeholder="อายุ (อัตโนมัติ)" readonly class="w-full bg-[#e0e0e0] border border-gray-400/50 rounded-lg px-3 py-2.5 text-xs md:text-sm focus:outline-none text-gray-400 shadow-inner text-center cursor-not-allowed">
+                    </div>
+                    <p id="age-error-msg" class="text-xs text-rose-600 font-medium text-left mt-1 hidden"></p>
+                </div>
+                
+                <div>
+                    <input type="email" placeholder="อีเมล" required class="w-full bg-[#e0e0e0] border border-gray-400/50 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-purple-600 transition-all placeholder-gray-500 text-gray-800 shadow-inner">
+                </div>
+                
+                <div>
+                    <!-- 🔥 🔐 อัปเดต: ล็อกความยาวรหัสผ่าน 8 ตัวเป๊ะ พร้อมดักภาษาอังกฤษ ตัวเลข อักขระพิเศษ ห้ามพิมพ์ไทย -->
+                    <input type="password" id="password" placeholder="รหัสผ่าน (ภาษาอังกฤษ/ตัวเลข/อักขระพิเศษ 8 ตัวเท่านั้น)" required minlength="8" maxlength="8" pattern="^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':&quot;\\|,.<>\/?]{8}$" title="กรุณากรอกรหัสผ่านเป็นภาษาอังกฤษ ตัวเลข หรืออักขระพิเศษให้ครบ 8 ตัวพอดี" class="w-full bg-[#e0e0e0] border border-gray-400/50 rounded-lg px-4 py-2.5 text-xs md:text-sm focus:outline-none focus:border-purple-600 transition-all placeholder-gray-500 text-gray-800 shadow-inner">
+                </div>
+                
+                <!-- โซนกดยอมรับข้อตกลงและเงื่อนไขต่างๆ -->
+                <div class="space-y-2.5 pt-3 pb-4 max-w-[420px] mx-auto text-left border-t border-b border-gray-100 my-4" id="checkbox-group-zone">
+                    
+                    <div class="flex items-center space-x-2.5">
+                        <input type="checkbox" id="check-privacy" disabled class="w-4 h-4 accent-purple-600 rounded cursor-not-allowed opacity-60 flex-shrink-0">
+                        <label class="text-xs md:text-sm font-medium text-gray-700 select-none">
+                            ฉันยอมรับ <button type="button" id="btn-open-privacy" class="text-purple-600 hover:underline font-semibold focus:outline-none">นโยบายความเป็นส่วนตัว</button>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center space-x-2.5">
+                        <input type="checkbox" id="check-terms" disabled class="w-4 h-4 accent-purple-600 rounded cursor-not-allowed opacity-60 flex-shrink-0">
+                        <label class="text-xs md:text-sm font-medium text-gray-700 select-none">
+                            ฉันยอมรับ <button type="button" id="btn-open-terms" class="text-purple-600 hover:underline font-semibold focus:outline-none">ข้อตกลงและเงื่อนไขการใช้บริการ</button>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center space-x-2.5">
+                        <input type="checkbox" id="check-risk" disabled class="w-4 h-4 accent-purple-600 rounded cursor-not-allowed opacity-60 flex-shrink-0">
+                        <label class="text-xs md:text-sm font-medium text-gray-700 select-none">
+                            ฉันยอมรับ <button type="button" id="btn-open-risk" class="text-purple-600 hover:underline font-semibold focus:outline-none">ข้อตกลงรับทราบความเสี่ยงด้านสินทรัพย์ดิจิทัล</button>
+                        </label>
+                    </div>
+
+                </div>
+                
+                <div>
+                    <button type="submit" id="submit-btn" disabled class="btn-disabled w-full max-w-[180px] mx-auto border font-medium py-2 rounded-lg text-sm transition-all shadow-sm">
+                        สมัคร
+                    </button>
+                </div>
+            </form>
+            
+            <div class="absolute bottom-4 right-6">
+                <a href="/pages/login.html" class="text-[11px] text-gray-500 hover:text-black font-light transition-colors flex items-center space-x-0.5">
+                    <span>เข้าสู่ระบบ</span>
+                    <span class="text-[9px]">▶❚</span>
+                </a>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- หน้าต่าง Pop-up เงื่อนไขทางกฎหมาย -->
+    <div id="privacy-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white w-full max-w-[600px] rounded-2xl shadow-2xl flex flex-col max-h-[85vh] text-left transform scale-95 transition-transform duration-300" id="modal-content">
+            
+            <div class="p-5 border-b border-gray-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">เอกสารและข้อตกลงทางกฎหมาย</h2>
+                    <button type="button" id="close-modal-x" class="text-gray-400 hover:text-gray-600 text-2xl font-bold focus:outline-none">&times;</button>
+                </div>
+                <div class="flex border-b border-gray-200 text-xs md:text-sm">
+                    <button type="button" id="privacy-tab-btn" onclick="switchTab('privacy-tab')" class="tab-btn flex-1 text-center pb-2 border-b-2 border-transparent text-gray-500 hover:text-purple-600 active">นโยบายความเป็นส่วนตัว</button>
+                    <button type="button" id="terms-tab-btn" onclick="switchTab('terms-tab')" class="tab-btn flex-1 text-center pb-2 border-b-2 border-transparent text-gray-500 hover:text-purple-600">เงื่อนไขการบริการ</button>
+                    <button type="button" id="risk-tab-btn" onclick="switchTab('risk-tab')" class="tab-btn flex-1 text-center pb-2 border-b-2 border-transparent text-gray-500 hover:text-purple-600">ความเสี่ยงสินทรัพย์</button>
+                </div>
+            </div>
+            
+            <div id="modal-scroll-container" class="p-6 overflow-y-auto space-y-4 text-sm text-gray-600 leading-relaxed flex-grow max-h-[50vh]">
+                <!-- แท็บ 1 -->
+                <div id="privacy-tab-content" class="tab-pane space-y-4">
+                    <p class="font-semibold text-base text-gray-800">นโยบายความเป็นส่วนตัว (Privacy Policy)</p>
+                    <p class="text-xs text-gray-400">ทีมผู้พัฒนาแพลตฟอร์ม BBlock Wallet<br>ประกาศและมีผลบังคับใช้ ณ วันที่ 22 มิถุนายน 2569</p>
+                    <p>Block Wallet (ซึ่งต่อไปในนโยบายนี้จะเรียกว่า "บริษัทฯ" หรือ "เรา") ตระหนักถึงความสำคัญของการคุ้มครองข้อมูลส่วนบุคคลของผู้เข้าเยี่ยมชมและผู้ใช้บริการแพลตฟอร์ม (ซึ่งต่อไปจะเรียกว่า "ผู้ใช้บริการ") นโยบายความเป็นส่วนตัวฉบับนี้จัดทำขึ้นเพื่อชี้แจงให้ทราบถึงรายละเอียด วัตถุประสงค์ หลักเกณฑ์ และมาตรการในการเก็บรวบรวม ใช้ เปิดเผย และรักษาความปลอดภัยข้อมูลส่วนบุคคล ซึ่งดำเนินการให้สอดคล้องกับ พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) และ พระราชบัญญัติว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์ (ฉบับที่ 2) พ.ศ. 2560 รวมถึงกฎหมายและระเบียบข้อบังคับที่เกี่ยวข้องของประเทศไทย</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">1. ข้อมูลส่วนบุคคลที่มีการเก็บรวบรวม</h3>
+                    <p>บริษัทฯ จะเก็บรวบรวมข้อมูลส่วนบุคคลเท่าที่จำเป็นตามวัตถุประสงค์โดยชอบด้วยกฎหมาย ซึ่งรวมถึงข้อมูลดังต่อไปนี้:
+ข้อมูลส่วนบุคคลทั่วไป (Personal Data): ข้อมูลที่ผู้ใช้บริการให้ไว้เพื่อยืนยันตัวตน (KYC) ในการลงทะเบียนเข้าใช้งาน เช่น ชื่อ-นามสกุล, ข้อมูลการติดต่อ (อีเมล, หมายเลขโทรศัพท์), และข้อมูลแสดงตนอื่นใดตามที่ระบบกำหนด
+ข้อมูลการจัดการมรดกและสินทรัพย์ดิจิทัล: ข้อมูลคำสั่ง เงื่อนไข ระยะเวลา และข้อมูลส่วนบุคคลของผู้รับประโยชน์หรือผู้สืบทอดสิทธิ์ที่ผู้ใช้บริการได้ระบุไว้ในระบบ เพื่อวัตถุประสงค์ในการปฏิบัติตามคำสั่งของสัญญาอัจฉริยะ (Smart Contract)
+ข้อมูลทางเทคนิคและข้อมูลจราจรทางคอมพิวเตอร์ (Log Data): ข้อมูลจราจรทางคอมพิวเตอร์ที่ระบบจัดเก็บโดยอัตโนมัติเมื่อมีการเข้าใช้งานแพลตฟอร์ม เช่น หมายเลขไอพี (IP Address), ประเภทของโปรแกรมโปรแกรมเบราว์เซอร์, และประวัติการทำรายการ (Transaction History) เพื่อการตรวจสอบและปฏิบัติตาม พ.ร.บ. ว่าด้วยการกระทำความผิดเกี่ยวกับคอมพิวเตอร์
+</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">2. วัตถุประสงค์ในการประมวลผลข้อมูลส่วนบุคคล</h3>
+                    <p>บริษัทฯ ดำเนินการประมวลผลข้อมูลส่วนบุคคลภายใต้ฐานทางกฎหมาย (Legal Bases) ดังต่อไปนี้:
+ฐานสัญญา (Contractual Basis): เพื่อการจัดทำข้อตกลงและดำเนินการตามสัญญาระหว่างบริษัทฯ กับผู้ใช้บริการ ในการให้บริการระบบการจัดการและส่งต่อมรดกดิจิทัลตามเงื่อนไขทางเทคนิคที่ผู้ใช้บริการกำหนดไว้
+ฐานความยินยอม (Consent Basis): ในกรณีที่จำเป็นต้องใช้ข้อมูลผู้รับประโยชน์หรือผู้สืบทอดสิทธิ์ในการจัดเตรียมระบบส่งต่อสิทธิ์ เพื่อให้สามารถระบุตัวตนและติดต่อผู้รับสืบทอดสิทธิ์ได้อย่างถูกต้องเมื่อเกิดเงื่อนไขตามที่กำหนด
+ฐานหน้าที่ตามกฎหมาย (Legal Obligation): เพื่อปฏิบัติตามกฎหมายที่ควบคุมดูแลการให้บริการประเภทเทคโนโลยีสารสนเทศ รวมถึงการเก็บรักษาข้อมูลจราจรทางคอมพิวเตอร์ตามที่กฎหมายกำหนด
+</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">3. การรักษาความปลอดภัยและความเป็นส่วนลับของข้อมูล</h3>
+                    <p>บริษัทฯ ได้จัดให้มีมาตรการรักษาความมั่นคงปลอดภัยของข้อมูลส่วนบุคคลที่เหมาะสมและได้มาตรฐานสากล เพื่อป้องกันการสูญหาย การเข้าถึง ทำลาย ใช้ ดัดแปลง หรือเปิดเผยข้อมูลส่วนบุคคลโดยมิชอบ
+ข้อมูลสำคัญเกี่ยวกับการทำรายการและการตั้งค่ามรดกจะถูกปกป้องด้วยเทคโนโลยีการเข้ารหัสข้อมูล (Encryption) และการจำกัดสิทธิ์การเข้าถึงข้อมูล (Access Control) เพื่อให้มั่นใจได้ว่าข้อมูลจะถูกเก็บรักษาเป็นความลับสูงสุดภายใต้สภาพแวดล้อมที่ปลอดภัย
+</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">4. ระยะเวลาในการเก็บรักษาข้อมูลส่วนบุคคล</h3>
+                    <p>บริษัทฯ จะเก็บรักษาข้อมูลส่วนบุคคลของผู้ใช้บริการไว้เป็นระยะเวลาเท่าที่จำเป็นในระหว่างที่ผู้ใช้บริการยังคงสถานะการใช้บริการ หรือจนกว่ากระบวนการส่งต่อสิทธิ์ตามที่กำหนดในสัญญาอัจฉริยะจะเสร็จสิ้นโดยสมบูรณ์
+ทั้งนี้ บริษัทฯ อาจเก็บรักษาข้อมูลไว้ต่อไปตามระยะเวลาที่กฎหมายที่เกี่ยวข้องกำหนดไว้ เพื่อการตรวจสอบหรือการใช้สิทธิเรียกร้องตามกฎหมาย
+</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">5. สิทธิของเจ้าของข้อมูลส่วนบุคคล</h3>
+                    <p>ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 ผู้ใช้บริการและเจ้าของข้อมูลส่วนบุคคลทรงไว้ซึ่งสิทธิตามกฎหมาย ดังต่อไปนี้:
+สิทธิในการขอเข้าถึงและขอรับสำเนา ข้อมูลส่วนบุคคลที่เกี่ยวกับตนซึ่งอยู่ในความรับผิดชอบของบริษัทฯ
+สิทธิในการขอแก้ไขข้อมูลส่วนบุคคล ให้ถูกต้อง เป็นปัจจุบัน สมบูรณ์ และไม่ก่อให้เกิดความเข้าใจผิด
+สิทธิในการขอให้ลบ หรือทำลาย หรือทำให้ข้อมูลส่วนบุคคลไม่สามารถระบุตัวบุคคลที่เป็นเจ้าของข้อมูลได้ (ซึ่งการใช้สิทธิดังกล่าวอาจส่งผลกระทบต่อความสมบูรณ์ในการให้บริการตามสัญญาอัจฉริยะที่ตั้งไว้)
+สิทธิในการเพิกถอนความยินยอม ในการประมวลผลข้อมูลส่วนบุคคลที่เคยได้ให้ไว้กับบริษัทฯ ได้ตลอดระยะเวลาที่ข้อมูลส่วนบุคคลนั้นอยู่กับบริษัทฯ
+</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">6. ช่องทางการติดต่อ (Contact Information)</h3>
+                    <p>หากผู้ใช้บริการมีข้อสงสัยเกี่ยวกับนโยบายความเป็นส่วนตัวฉบับนี้ หรือต้องการใช้สิทธิของเจ้าของข้อมูลส่วนบุคคล สามารถติดต่อเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล (DPO) หรือฝ่ายบริการส่วนกลางของเราได้ที่:
+</p>                <p>ผู้ควบคุมข้อมูลส่วนบุคคล: ทีมผู้พัฒนาโครงงานปริญญานิพนธ์ แพลตฟอร์ม Block Wallet</p>
+                    <p>สถานที่ติดต่อ: สำนักวิชาศาสตร์และศิลป์ดิจิทัล 111 มหาวิทยาลัยเทคโนโลยีสุรนารี ต.สุรนารี อ.เมือง จ.นครราชสีมา 30000 044-225789</p>
+                    <p>อีเมล: bblock.wallet@gmail.com</p>
+                    <p>ช่องทางออนไลน์: Facebook page: BBlock Wallet</p>
+                </div>
+                
+                <!-- แท็บ 2 -->
+                <div id="terms-tab-content" class="tab-pane space-y-4 hidden">
+                    <p class="font-semibold text-base text-gray-800">ข้อตกลงและเงื่อนไขการใช้บริการ (Terms and Conditions)</p>
+                    <p class="text-xs text-gray-400">อัปเดตล่าสุด: 19 กรกฎาคม 2026</p>
+                    <p>ยินดีต้อนรับสู่ BBlockWallet แพลตฟอร์มผู้ให้บริการกระเป๋าเงินสินทรัพย์ดิจิทัล (Digital Asset Wallet) ก่อนที่คุณจะเริ่มต้นสร้างบัญชีและใช้งานระบบ กรุณาอ่านข้อตกลงและเงื่อนไขการใช้บริการนี้อย่างละเอียด การสมัครสมาชิกหรือเข้าใช้งานระบบ ถือว่าคุณได้ยอมรับและผูกพันตามกฎกติกาที่ระบุไว้ดังต่อไปนี้:</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">1. การรักษาความปลอดภัยบัญชีกระเป๋าเงิน</h3>
+                    <p>•    ผู้ใช้งานจะต้องให้ข้อมูลที่เป็นความจริง ถูกต้อง และเป็นปัจจุบันในการลงทะเบียนสมัครสมาชิก</p>
+                    <p>•    สิทธิ์ในการเข้าถึงบัญชีเป็นสิทธิ์เฉพาะบุคคลของผู้ลงทะเบียนเท่านั้น ห้ามมิให้มีการโอนสิทธิ์ มอบหมายสิทธิ์ หรืออนุญาตให้บุคคลอื่นเข้าใช้งานบัญชีแทนตนเอง</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">2. การรักษาความปลอดภัยและการดูแลรักษาข้อมูลลับ</h3>
+                    <p>•    BBlockWallet เป็นผู้ให้บริการระบบโครงสร้างพื้นฐานกระเป๋าเงิน แต่ "ผู้ใช้งาน" มีหน้าที่และความรับผิดชอบสูงสุดแต่เพียงผู้เดียวในการเก็บรักษารหัสผ่าน (Password), รหัสผ่านส่วนตัว (Private Key), หรือรหัสผ่านสำรอง (Seed Phrase) ของกระเป๋าเงิน</p>
+                    <p>•    แพลตฟอร์มไม่มีนโยบายการจัดเก็บรักษารหัสผ่านสำรองหรือรหัสส่วนตัวของผู้ใช้งานไว้ที่เซิร์ฟเวอร์ส่วนกลาง หากเกิดกรณีสูญหาย หหลงลืม หรือถูกโจรกรรมข้อมูลจากอุปกรณ์ของผู้ใช้งาน แพลตฟอร์มจะไม่สามารถกู้คืนบัญชีหรือสินทรัพย์ให้ได้ และไม่จำเป็นต้องรับผิดชอบต่อความเสียหายใดๆ ทั้งสิ้น</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">3. ข้อห้ามในการใช้งานระบบ</h3>
+                    <p>•    การกระทำใดๆ ที่ผิดกฎหมาย รวมถึงการฟอกเงิน (Anti-Money Laundering) และการสนับสนุนทางการเงินแก่การก่อการร้าย</p>
+                    <p>•    การพยายามเจาะระบบ (Hacking), แพร่กระจายไวรัส, มัลแวร์ หรือแทรงแซงเสถียรภาพการทำงานของระบบ BBlockWallet</p>
+                    <p>•    การหลอกลวง ฉ้อโกง หรือกระทำการใดๆ ที่ทำให้ผู้อื่นได้รับความเสียหายทางทรัพย์สิน</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">4. ขอบเขตความรับผิดชอบ (Limitation of Liability)</h3>
+                    <p>•    BBlockWallet ให้บริการระบบตามสภาพที่เป็นอยู่ (As-Is) แพลตฟอร์มไม่สามารถรับประกันได้ว่าระบบจะทำงานโดยปราศจากข้อบกพร่อง ความล่าช้า หรือเหตุขัดข้องทางเทคนิคที่เกิดจากเครือข่ายบล็อกเชน (Blockchain Network Error) หรือผู้ให้บริการบุคคลภายนอก (เช่น API ราคาตลาด)</p>
+                    <p>•    แพลตฟอร์มจะไม่รับผิดชอบต่อการสูญเสียสินทรัพย์อันเนื่องมาจากความผิดพลาดของผู้ใช้งานเอง เช่น การระบุที่อยู่กระเป๋าปลายทางผิด (Wrong Wallet Address) หรือการโอนเหรียญผิดเครือข่ายบล็อกเชน (Wrong Network)</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">5. การเปลี่ยนแปลงเงื่อนไข</h3>
+                    <p>•    แพลตฟอร์มขอสงวนสิทธิ์ในการแก้ไขปรับปรุงข้อตกลงการใช้บริการนี้ได้ตลอดเวลาตามที่เห็นสมควร โดยจะมีการแจ้งให้ผู้ใช้ทราบผ่านทางหน้าเว็บหรือแอปพลิเคชัน การใช้งานระบบต่อหลังจากมีการแก้ไข ถือเป็นการยอมรับเงื่อนไขใหม่โดยปริยาย</p>
+                    <p class="text-center font-bold text-purple-600 pt-4">--- (กรุณาเลื่อนลงให้สุดเพื่อปลดล็อกปุ่มยอมรับ) ---</p>
+                </div>
+                
+                <!-- แท็บ 3 -->
+                <div id="risk-tab-content" class="tab-pane space-y-4 hidden">
+                    <p class="font-semibold text-base text-gray-800">ข้อตกลงรับทราบความเสี่ยงด้านสินทรัพย์ดิจิทัล (Digital Asset Risk Acknowledgement)</p>
+                    <p class="text-xs text-gray-400">หนังสือแสดงการรับทราบความเสี่ยงด้านสินทรัพย์ดิจิทัล BBlockWallet<br>ประกาศและมีผลบังคับใช้ ณ วันที่ 22 มิถุนายน 2569</p>
+                    <p>สินทรัพย์ดิจิทัล (Cryptocurrency และ Token) มีความเสี่ยงสูงมาก ก่อนที่ท่านจะเริ่มใช้งาน BBlockWallet เพื่อจัดเก็บ บริหาร หรือทำธุรกรรมใดๆ โปรดอ่าน ทำความเข้าใจ และยอมรับความเสี่ยงที่ระบุดังต่อไปนี้:</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">1. ความผันผวนของราคาและมูลค่าตลาด</h3>
+                    <p>มูลค่าของคริปโตเคอร์เรนซี (เช่น Bitcoin, Ethereum และเหรียญอื่นๆ) มีความผันผวนสูงมากและสามารถเปลี่ยนแปลงได้อย่างรวดเร็วตลอด 24 ชั่วโมง การเปลี่ยนแปลงของราคาขึ้นอยู่กับกลไกตลาดและปัจจัยภายนอกที่แพลตฟอร์มไม่สามารถควบคุมได้ ท่านอาจสูญเสียมูลค่าของเงินลงทุนทั้งหมดหรือบางส่วนได้ตลอดเวลา</p>
+                    <p>ข้อมูลราคาและสถิติสะสมที่แสดงผลบนหน้าแดชบอร์ด เป็นการดึงข้อมูลสด (Real-time API) มาจากผู้ให้บริการภายนอกเพื่ออำนวยความสะดวกในการรับรู้ข้อมูลเท่านั้น ไม่ถือเป็นคำแนะนำทางการลงทุน (Not Financial Advice)</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">2. ความเป็นส่วนตัวและธุรกรรมที่ย้อนกลับไม่ได้ (Irreversible Transactions)</h3>
+                    <p>การทำธุรกรรมโอนย้ายสินทรัพย์ดิจิทัลบนเครือข่ายบล็อกเชน เมื่อทำรายการสำเร็จแล้ว "จะไม่สามารถขอยกเลิกหรือดึงเงินกลับคืนได้" ไม่ว่ากรณีใดๆ</p>
+                    <p>โปรดตรวจสอบที่อยู่กระเป๋าเงินปลายทาง เครือข่ายการโอน และจำนวนเงินอย่างละเอียดถี่ถ้วนก่อนกดยืนยันการทำรายการทุกครั้ง BBlockWallet จะไม่รับผิดชอบและไม่สามารถติดตามสินทรัพย์คืนให้ได้หากเกิดความผิดพลาดในการโอนจากฝั่งผู้ใช้งาน</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">3. ความเสี่ยงทางเทคโนโลยีและเครือข่ายบล็อกเชน</h3>
+                    <p>สินทรัพย์ดิจิทัลพึ่งพาเทคโนโลยีบล็อกเชนและรหัสวิทยา (Cryptography) ซึ่งอาจมีความเสี่ยงในเรื่องของความล่าช้าในการยืนยันธุรกรรม (Network Congestion), การอัปเกรดระบบเครือข่ายหลัก (Hard Fork) หรือค่าธรรมเนียมเครือข่าย (Gas Fee) ที่ผันผวน</p>
+                    <p>ผู้ใช้งานยอมรับว่า BBlockWallet เป็นผู้ให้บริการกระเป๋าเงินและเครื่องมือบริหารพอร์ตเท่านั้น ไม่มีสิทธิ์อำนาจควบคุมกฎเกณฑ์ ความปลอดภัย หรือเสถียรภาพของเครือข่ายบล็อกเชนแต่ละตัว</p>
+                    <h3 class="font-bold text-gray-800 text-sm mt-3">4. ถ้อยคำยืนยันการรับทราบความเสี่ยง</h3>
+                    <p>โดยการติ๊กเลือกยอมรับหรือใช้งาน BBlockWallet ข้าพเจ้ายืนยันว่า:</p>
+                    <p>ข้าพเจ้าได้ศึกษา ทำความเข้าใจ และตระหนักถึงความเสี่ยงต่างๆ ในการถือครองและทำธุรกรรมสินทรัพย์ดิจิทัลเป็นอย่างดีแล้ว</p>
+                    <p>ข้าพเจ้ายอมรับความเสี่ยงทางด้านการเงินและเทคโนโลยีทั้งหมดด้วยตนเอง และตกลงว่าจะไม่เรียกร้องค่าเสียหายหรือฟ้องร้องดำเนินคดีใดๆ ต่อโปรเจกต์ BBlockWallet และทีมผู้พัฒนา หากเกิดความสูญเสียทางมูลค่าหรือสินทรัพย์อันเนื่องมาจากปัจจัยเสี่ยงที่กล่าวมาข้างต้น</p>
+                    <p class="text-center font-bold text-purple-600 pt-4">--- (กรุณาเลื่อนลงให้สุดเพื่อปลดล็อกปุ่มยอมรับ) ---</p>
+                </div>
+            </div>
+            
+            <div class="p-6 border-t border-gray-200 flex justify-between items-center bg-gray-50 rounded-b-2xl">
+                <span id="read-progress-text" class="text-xs font-medium text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">อ่านไปแล้ว 1 จาก 3 ข้อตกลง</span>
+                <div class="flex space-x-2">
+                    <button type="button" id="decline-btn" class="px-4 py-2 border border-gray-300 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors">ปิด</button>
+                    <button type="button" id="accept-current-btn" disabled class="btn-disabled px-5 py-2 border font-medium rounded-lg text-sm">ยอมรับข้อตกลงฉบับนี้</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-footer" class="w-full"></div>
+
+    <script>
+        // ==========================================
+        // 📁 1. โซนคัดเลือก Element หน้าจอ (ผูก ID ตรงกัน 100%)
+        // ==========================================
+        const birthdateInput = document.getElementById('birthdate');
+        const ageInput = document.getElementById('age'); 
+        const ageErrorMsg = document.getElementById('age-error-msg');
+        const checkboxGroupZone = document.getElementById('checkbox-group-zone'); 
+        const passwordInput = document.getElementById('password'); 
+        
+        const btnOpenPrivacy = document.getElementById('btn-open-privacy');
+        const btnOpenTerms = document.getElementById('btn-open-terms');
+        const btnOpenRisk = document.getElementById('btn-open-risk');
+
+        const checkPrivacy = document.getElementById('check-privacy');
+        const checkTerms = document.getElementById('check-terms');
+        const checkRisk = document.getElementById('check-risk');
+        const submitBtn = document.getElementById('submit-btn');
+
+        const privacyModal = document.getElementById('privacy-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalX = document.getElementById('close-modal-x');
+        const declineBtn = document.getElementById('decline-btn');
+        const acceptCurrentBtn = document.getElementById('accept-current-btn');
+        const readProgressText = document.getElementById('read-progress-text');
+        const scrollContainer = document.getElementById('modal-scroll-container');
+        const registerForm = document.getElementById('register-form');
+
+        let isAgeValid = false;
+        let activeTabName = 'privacy-tab';
+        let visitedTabs = { 'privacy-tab': true, 'terms-tab': false, 'risk-tab': false };
+        let fullyScrolledTabs = { 'privacy-tab': false, 'terms-tab': false, 'risk-tab': false };
+
+        // ตั้งค่า UI ปุ่มเงื่อนไขตั้งแต่แรกเริ่มโหลดหน้าเว็บ
+        updateAgreementButtonsUI();
+
+        // ==========================================
+        // 📅 2. กลไกเช็กอายุและบล็อกปุ่มอัตโนมัติ (อิงปีปัจจุบัน 2026)
+        // ==========================================
+        birthdateInput.addEventListener('change', () => {
+            const birthDate = new Date(birthdateInput.value);
+            if (isNaN(birthDate)) {
+                isAgeValid = false;
+                updateAgreementButtonsUI();
+                return;
+            }
+
+            const today = new Date();
+            birthDate.setHours(0,0,0,0);
+            today.setHours(0,0,0,0);
+
+            // ❌ เงื่อนไขที่ 1: ดักจับการเลือกวันที่ปัจจุบันหรืออนาคต
+            if (birthDate >= today) {
+                alert("❌ ข้อผิดพลาด: ไม่สามารถใช้วันปัจจุบันหรืออนาคตเป็นวันเกิดได้!");
+                ageErrorMsg.innerText = "❌ วันเกิดไม่ถูกต้อง (ต้องไม่เป็นปัจจุบันหรืออนาคต)";
+                ageErrorMsg.classList.remove('hidden');
+                
+                ageInput.value = "";
+                birthdateInput.value = "";
+                isAgeValid = false;
+                
+                updateAgreementButtonsUI();
+                resetAllCheckboxes();
+                return;
+            }
+
+            // 🧮 ตรรกะคำนวณเลขอายุสะสม
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) { 
+                age--; 
+            }
+
+            // แสดงผลอายุไปที่กล่อง Input บนหน้าจอทันที
+            ageInput.value = age + " ปี";
+
+            // ❌ เงื่อนไขที่ 2: ดักเกณฑ์อายุขั้นต่ำต้อง 20 ปีบริบูรณ์
+            if (age < 20) {
+                alert(`❌ คุณอายุ ${age} ปี ระบบจำกัดสิทธิ์เฉพาะผู้ที่มีอายุ 20 ปีขึ้นไปเท่านั้น!`);
+                ageErrorMsg.innerText = "⚠️ ขออภัย แพลตฟอร์มสินทรัพย์ดิจิทัลผู้สมัครต้องมีอายุ 20 ปีขึ้นไป";
+                ageErrorMsg.classList.remove('hidden');
+                isAgeValid = false;
+                resetAllCheckboxes();
+            } else {
+                ageErrorMsg.classList.add('hidden');
+                isAgeValid = true;
+            }
+            
+            updateAgreementButtonsUI();
+        });
+
+        function updateAgreementButtonsUI() {
+            [btnOpenPrivacy, btnOpenTerms, btnOpenRisk].forEach(btn => {
+                if (!isAgeValid) {
+                    btn.style.opacity = '0.4';
+                    btn.style.cursor = 'not-allowed';
+                    btn.style.pointerEvents = 'none';
+                    checkboxGroupZone.style.opacity = '0.5';
+                    checkboxGroupZone.style.pointerEvents = 'none'; 
+                } else {
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    btn.style.pointerEvents = 'auto';
+                    checkboxGroupZone.style.opacity = '1';
+                    checkboxGroupZone.style.pointerEvents = 'auto'; 
+                }
+            });
+        }
+
+        function resetAllCheckboxes() {
+            [checkPrivacy, checkTerms, checkRisk].forEach(cb => {
+                cb.checked = false;
+                cb.disabled = true;
+                cb.className = "w-4 h-4 accent-purple-600 rounded cursor-not-allowed opacity-60 flex-shrink-0";
+            });
+            verifyCheckboxes();
+        }
+
+        function safeOpenModal(tabId) {
+            if (!isAgeValid) return;
+            privacyModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+            switchTab(tabId);
+        }
+
+        btnOpenPrivacy.addEventListener('click', () => safeOpenModal('privacy-tab'));
+        btnOpenTerms.addEventListener('click', () => safeOpenModal('terms-tab'));
+        btnOpenRisk.addEventListener('click', () => safeOpenModal('risk-tab'));
+
+        // ==========================================
+        // 📜 3. กลไกใน Pop-up และระบบตรวจเช็กปุ่มกดสมัคร
+        // ==========================================
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
+            document.getElementById(tabId + '-btn').classList.add('active');
+            document.getElementById(tabId + '-content').classList.remove('hidden');
+            activeTabName = tabId;
+            visitedTabs[tabId] = true;
+            scrollContainer.scrollTop = 0;
+            evaluateTabProgress();
+        }
+
+        scrollContainer.addEventListener('scroll', () => {
+            if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 5) {
+                fullyScrolledTabs[activeTabName] = true;
+                evaluateTabProgress();
+            }
+        });
+
+        function evaluateTabProgress() {
+            const countVisited = Object.values(visitedTabs).filter(v => v === true).length;
+            if (readProgressText) {
+                readProgressText.innerText = `อ่านไปแล้ว ${countVisited} จาก 3 ข้อตกลง`;
+            }
+
+            const isCurrentTabRead = fullyScrolledTabs[activeTabName];
+            const isAllVisited = (countVisited === 3);
+
+            acceptCurrentBtn.innerText = isAllVisited ? "ยอมรับข้อตกลงทั้งหมด" : "ยอมรับข้อตกลงฉบับนี้";
+
+            if (isCurrentTabRead) {
+                acceptCurrentBtn.disabled = false;
+                acceptCurrentBtn.className = isAllVisited 
+                    ? "px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow-sm transition-all"
+                    : "px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg shadow-sm transition-all";
+            } else {
+                acceptCurrentBtn.disabled = true;
+                acceptCurrentBtn.className = "btn-disabled px-5 py-2 border font-medium rounded-lg text-sm";
+            }
+        }
+
+        function closeModal() {
+            privacyModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+
+        closeModalX.addEventListener('click', closeModal);
+        declineBtn.addEventListener('click', closeModal);
+
+        acceptCurrentBtn.addEventListener('click', () => {
+            const countVisited = Object.values(visitedTabs).filter(v => v === true).length;
+            
+            if (countVisited === 3) {
+                [checkPrivacy, checkTerms, checkRisk].forEach(checkbox => {
+                    checkbox.disabled = false;
+                    checkbox.checked = true;
+                    checkbox.classList.remove('cursor-not-allowed', 'opacity-60');
+                    checkbox.classList.add('cursor-pointer');
+                });
+            } else {
+                let targetCheckbox;
+                if (activeTabName === 'privacy-tab') targetCheckbox = checkPrivacy;
+                else if (activeTabName === 'terms-tab') targetCheckbox = checkTerms;
+                else if (activeTabName === 'risk-tab') targetCheckbox = checkRisk;
+
+                if (targetCheckbox) {
+                    targetCheckbox.disabled = false;
+                    targetCheckbox.checked = true;
+                    targetCheckbox.classList.remove('cursor-not-allowed', 'opacity-60');
+                    targetCheckbox.classList.add('cursor-pointer');
+                }
+            }
+            verifyCheckboxes();
+            closeModal();
+        });
+
+        // 🔒 ตรวจสอบเงื่อนไข Checkbox + อายุผ่านเกณฑ์ + รหัสผ่านตรงตามสเปก 8 ตัวเป๊ะภาษาอังกฤษ
+        function verifyCheckboxes() {
+            const pwd = passwordInput.value;
+            const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8}$/;
+            const isPasswordValid = passwordRegex.test(pwd);
+
+            if (checkPrivacy.checked && checkTerms.checked && checkRisk.checked && isAgeValid && isPasswordValid) {
+                submitBtn.disabled = false;
+                submitBtn.className = "w-full max-w-[180px] mx-auto bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 rounded-lg text-sm transition-all shadow-md active:scale-95 cursor-pointer";
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.className = "btn-disabled w-full max-w-[180px] mx-auto border font-medium py-2 rounded-lg text-sm transition-all shadow-sm";
+            }
+        }
+
+        [checkPrivacy, checkTerms, checkRisk].forEach(checkbox => {
+            checkbox.addEventListener('change', verifyCheckboxes);
+        });
+        passwordInput.addEventListener('input', verifyCheckboxes); 
+
+        privacyModal.addEventListener('click', (e) => {
+            if (e.target === privacyModal) closeModal();
+        });
+
+        // ==========================================
+        // 🌐 4. โหลดโครงสร้างส่วนท้ายเว็บ (Footer)
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const footer = document.getElementById('app-footer');
+            if (footer) {
+                footer.innerHTML = `
+                    <footer class="w-full bg-[#0c0b24] text-white py-4 text-center text-[10px] text-gray-400 border-t border-white/5">
+                        Copyright © 2026 BBlockWallet.com. All rights reserved.
+                    </footer>
+                `;
+            }
+            evaluateTabProgress();
+        });
+
+        // ==========================================
+        // 🚀 5. ระบบยิงข้อมูลหาฐานข้อมูลหลังบ้าน (Fetch API to Server)
+        // ==========================================
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+
+            // สร้าง UID จำลองขึ้นมาใช้เป็นคีย์เอกสาร Firestore
+            const randomUID = "UNID" + Math.floor(100000 + Math.random() * 900000);
+
+            // 🛠️ [แก้ไขสำหรับความแม่นยำ]: แกะค่าแบบเจาะจงประเภทอินพุต ไม่เกิดปัญหาสกัดค่าหลุดเป็น undefined
+            const nameValue = registerForm.querySelector('input[type="text"]:not([readonly])').value;
+            const emailValue = registerForm.querySelector('input[type="email"]').value;
+            const passwordValue = passwordInput.value;
+            const birthDateValue = birthdateInput.value;
+            
+            // ที่อยู่กระเป๋าเงินจำลองตามโมเดลระบบของคุณ
+            const mockWalletAddress = "0xbfB4C199B7FA1A2fA846d1d856E7EC20b39BF96B";
+
+            try {
+                submitBtn.disabled = true;
+                submitBtn.innerText = "กำลังบันทึก...";
+
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        uid: randomUID,
+                        name: nameValue,
+                        email: emailValue,
+                        password: passwordValue,
+                        birthDate: birthDateValue,
+                        walletAddress: mockWalletAddress
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert("🎉 สมัครสมาชิกสำเร็จ! ระบบบันทึกข้อมูลและส่งอีเมลแจ้งเตือนเรียบร้อย");
+                    // 🚪 เด้งสลับหน้าส่งคุณไปหน้า Login เพื่อล็อกอินซ้ำอีกรอบทันทีตามโครงสร้างระบบ
+                    window.location.href = "login.html";
+                } else {
+                    alert("❌ สมัครสมาชิกล้มเหลว: " + (result.error || result.message));
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "สมัคร";
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("❌ ไม่สามารถติดต่อเซิร์ฟเวอร์หลังบ้านได้ (ตรวจสอบว่ารัน node server.js หรือยัง)");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "สมัคร";
+            }
+        });
+    </script>
+</body>
+</html>

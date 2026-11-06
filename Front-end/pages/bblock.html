@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBlockWallet - จัดการทรัพย์สินคริปโตของคุณ</title>
+    <link rel="icon" type="image/png" href="/Front-end/photo/B-removebg-preview-r.png">
+    <link rel="stylesheet" href="../src/stylesI.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="/photo/B-removebg-preview (1).png" alt="BBlockWallet Logo" class="logo-img">
+        </div>
+        <nav class="nav-links" id="nav-menu">
+            <a href="#hero" data-translate="nav-features" class="nav-item">Features</a>
+            <a href="#assets" data-translate="nav-assets" class="nav-item">Assets</a>
+            <a href="#security" data-translate="nav-security" class="nav-item">Security</a>
+            <a href="/pages/support.html" data-translate="nav-support" class="nav-item">Support</a>
+            <a href="/pages/about.html" data-translate="nav-about">About</a>
+            
+            <button class="icon-btn" id="theme-toggle">
+                <i class="fa-regular fa-moon" id="theme-icon"></i>
+            </button>
+            
+            <button class="icon-btn" id="lang-toggle">
+                <i class="fa-solid fa-globe"></i>
+                <span id="lang-label" style="font-size: 11px; font-weight: bold; margin-left: 2px;">EN</span>
+            </button>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero-section target-section">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1 data-translate="hero-title">จัดการทรัพย์สินคริปโตของคุณ<br>อย่างมีประสิทธิภาพ</h1>
+                <p data-translate="hero-desc">กำหนดเงื่อนไขมรดกของคุณ ด้วย smart contract อันทรงพลัง</p>
+                <div class="btn-group">
+                    <button class="btn btn-white" onclick="location.href='/pages/register.html'" data-translate="btn-register">สมัคร</button>
+                    <button class="btn btn-outline" onclick="location.href='/pages/login.html'" data-translate="btn-login">เข้าสู่ระบบ</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="/photo/Screenshot 2026-06-18 183417.png" alt="BBlockWallet Dashboard" onerror="this.src='https://via.placeholder.com/600x350'">
+            </div>
+        </div>
+    </section>
+
+    <section id="assets" class="feature-section container target-section">
+        <div class="feature-grid">
+            <div class="feature-image relative-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <img src="/photo/UKKAi.jpg" alt="Mobile Wallet Authentication" class="mobile-img" onerror="this.src='https://via.placeholder.com/260x500'">
+            </div>
+            <div class="feature-content text-left">
+                <h2 data-translate="f1-title">จัดการทรัพย์สินคริปโตของคุณ<br>ด้วย Digital Asset Trust</h2>
+                <p data-translate="f1-desc">กำหนดเงื่อนไขมรดกของคุณ ด้วย smart contract มรดกดิจิทัล</p>
+                <a href="/pages/support.html#faq-3" class="qa-link">Q&A <span>▶</span></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature-section bg-light">
+        <div class="container feature-grid">
+            <div class="feature-content">
+                <h2 data-translate="f2-title">ตรวจสอบมูลค่าของคริปโตได้ทุกเวลา<br>ประเมินมูลค่าทรัพย์สินเป็นสกุลเงินจริง</h2>
+                <p data-translate="f2-desc">ตั้งค่าสกุลเงินจริงและประเมินมูลค่าทรัพย์สินของคุณเป็นสกุลเงินจริงได้อย่างรวดเร็ว</p>
+                <a href="/pages/support.html#faq-5" class="qa-link">Q&A <span>▶</span></a>
+            </div>
+            <div class="feature-image">
+                <img src="/photo/Screenshot 2026-06-18 185105.png" alt="Asset Distribution" class="tilt-img" onerror="this.src='https://via.placeholder.com/550x350'">
+            </div>
+        </div>
+    </section>
+
+    <section id="security" class="security-section target-section">
+        <div class="security-container">
+            <h2 class="security-main-title" data-translate="sec-main-title">ระบบรักษาความปลอดภัย 2 ชั้น</h2>
+            
+            <div class="security-block">
+                <h3 data-translate="sec-l1-title">ชั้นที่ 1: Web 2.0 Account Security</h3>
+                <p data-translate="sec-l1-desc">ปกป้องบัญชีของคุณในด่านแรกด้วยการเข้าสู่ระบบด้วย อีเมล, รหัสผ่าน<br>และระบบ Email OTP ที่รัดกุมเพื่อเข้าถึงหน้าจัดการข้อมูลทั่วไป และตรวจดูข้อมูลมูลค่าสินทรัพย์ได้อย่างปลอดภัย</p>
+            </div>
+
+            <hr class="security-divider">
+
+            <div class="security-block">
+                <h3 data-translate="sec-l2-title">ชั้นที่ 2: Web3 Smart Contract Verification</h3>
+                <p data-translate="sec-l2-desc">ยกระดับความปลอดภัยขั้นสูงสุดในด่านที่สอง ทุกครั้งที่คุณต้องการเปิดใช้งานฟังก์ชัน<br>Digital Asset Trust (จัดการมรดก) หรือทำธุรกรรมผ่าน Smart Contract<br>ระบบจะบังคับให้คุณต้องเชื่อมต่อและยืนยันตัวตนผ่านกระเป๋า MetaMask อีกครั้ง<br>เพื่อให้มั่นใจว่ามีเพียงเจ้าของกุญแจส่วนตัว (Private Key)<br>ตัวจริงเท่านั้นที่มีสิทธิ์สั่งการระบบได้</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-wrapper">
+            <div class="footer-top">
+                <span class="footer-logo">BBlockWallet.com</span>
+                <div class="footer-nav">
+                    <a href="#hero">Features</a>
+                    <a href="#assets">Assets</a>
+                    <a href="#security">Security</a>
+                    <a href="#support">Support</a>
+                    <a href="#about">About</a>
+                    
+                    <div class="search-box">
+                        <input type="text" placeholder="ค้นหาฟังก์ชัน..." id="footer-search">
+                        <button id="search-submit" style="background:none; border:none; cursor:pointer;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+
+                    <div class="footer-icons">
+                        <button class="icon-btn-footer" id="theme-toggle-footer"><i class="fa-regular fa-moon" id="theme-icon-footer"></i></button>
+                        <button class="icon-btn-footer" id="lang-toggle-footer"><i class="fa-solid fa-globe"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom" data-translate="footer-copy">
+                Copyright © 2026 BBlockWallet.com. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="/pages/bblock.js"></script>
+</body>
+</html>

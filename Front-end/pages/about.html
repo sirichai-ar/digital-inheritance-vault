@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBlockWallet - About Us</title>
+    <link rel="icon" type="image/png" href="/photo/B-removebg-preview-r.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../src/stylesI.css"> 
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            /* พื้นหลังโหมดสว่างเริ่มต้น (ปรับลดความขาวโพลนด้านบนเป็นสีเทาฟ้าจางเพื่อให้ contraste ชัดเจนอ่านง่าย) */
+            background: linear-gradient(180deg, #cbd5e1 0%, #6366f1 50%, #0c0b24 100%);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* 🌟 ส่วนแก้ไข: ดักจับคลาสเมื่อเปิดใช้ Dark Mode ให้เปลี่ยนเฉดสีพื้นหลังตรงกลาง Body ทั้งหมด 🌟 */
+        body.dark-mode {
+            background: linear-gradient(180deg, #0f172a 0%, #312e81 50%, #020617 100%) !important;
+            color: #f8fafc !important;
+        }
+
+        /* สไตล์ปรับความโปร่งแสงของกล่องเนื้อหาตรงกลางให้เข้ากับโหมดมืด */
+        body.dark-mode .content-card {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .text-yellow-400 { color: #f59e0b !important; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between text-white">
+
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="/photo/B-removebg-preview (1).png" alt="BBlockWallet Logo" class="logo-img">
+        </div>
+        <nav class="nav-links" id="nav-menu">
+            <a href="bblock.html#hero" data-translate="nav-features" class="nav-item">Features</a>
+            <a href="bblock.html#assets" data-translate="nav-assets" class="nav-item">Assets</a>
+            <a href="bblock.html#security" data-translate="nav-security" class="nav-item">Security</a>
+            <a href="bblock.html#support" data-translate="nav-support" class="nav-item">Support</a>
+            <a href="/pages/about.html" data-translate="nav-about" class="nav-item active">About</a>
+            
+            <button class="icon-btn" id="theme-toggle">
+                <i class="fa-regular fa-moon" id="theme-icon"></i>
+            </button>
+            
+            <button class="icon-btn" id="lang-toggle">
+                <i class="fa-solid fa-globe"></i>
+                <span id="lang-label" style="font-size: 11px; font-weight: bold; margin-left: 2px;">EN</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-24">
+        <div class="content-card w-full max-w-[900px] bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 md:p-12 shadow-2xl text-center transition-all">
+            
+            <div class="space-y-6 text-base md:text-lg font-light leading-relaxed tracking-wide text-gray-100">
+                <p class="text-xl md:text-2xl font-normal text-white" data-translate="main-title">
+                    แพลตฟอร์มจัดการและส่งต่อมรดกดิจิทัลอย่างปลอดภัย
+                </p>
+                <p data-translate="desc-1">
+                    เพื่อให้ทุกสินทรัพย์ออนไลน์ของคุณถูกดูแลและส่งถึงมือคนที่คุณรักอย่างถูกต้อง 
+                    In ยุคที่ชีวิตและสินทรัพย์ของเราย้ายไปอยู่บนโลกออนไลน์
+                </p>
+                <p data-translate="desc-2">
+                    แพลตฟอร์มนี้ถูกพัฒนาขึ้นมาเพื่อเปลี่ยนการบริหารจัดการและส่งต่อทรัพย์สินดิจิทัลให้เป็นเรื่องง่าย 
+                    ปลอดภัย และเป็นอัตโนมัติ เพื่อปกป้องคุณค่าทุกสิ่งที่คุณสร้างไว้ให้อยู่ในมือผู้รับสืบทอดอย่างแท้จริง
+                </p>
+            </div>
+
+            <!-- ปุ่มดาวน์โหลดนโยบายจัดเรียงอยู่ในแถวหน้ากระดานบรรทัดเดียวกัน -->
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                
+                <!-- ปุ่มที่ 1: นโยบายความเป็นส่วนตัว -->
+                <a href="/docs/นโยบายความเป็นส่วนตัว (Privacy Policy).pdf" 
+                   download="BBlockWallet_Privacy_Policy.pdf" 
+                   class="inline-flex items-center space-x-2 bg-white/20 hover:bg-white/30 border border border-white/40 text-white font-medium px-5 py-2.5 rounded-full text-sm transition-all hover:scale-105 active:scale-95 shadow-md">
+                    <i class="fa-solid fa-download text-xs"></i>
+                    <span data-translate="btn-privacy">นโยบายความเป็นส่วนตัว</span>
+                </a>
+
+                <!-- ปุ่มที่ 2: ข้อตกลงและเงื่อนไขการใช้บริการ -->
+                <a href="/docs/ข้อตกลงและเงื่อนไขการใช้บริการ.pdf" 
+                   download="BBlockWallet_Terms_and_Conditions.pdf" 
+                   class="inline-flex items-center space-x-2 bg-white/20 hover:bg-white/30 border border border-white/40 text-white font-medium px-5 py-2.5 rounded-full text-sm transition-all hover:scale-105 active:scale-95 shadow-md">
+                    <i class="fa-solid fa-download text-xs"></i>
+                    <span data-translate="btn-terms">ข้อตกลงและเงื่อนไขการใช้บริการ</span>
+                </a>
+
+                <!-- ปุ่มที่ 3: ข้อตกลงรับทราบความเสี่ยงด้านสินทรัพย์ดิจิทัล -->
+                <a href="/docs/ข้อตกลงรับทราบความเสี่ยงด้านสินทรัพย์ดิจิทัล.pdf" 
+                   download="BBlockWallet_Risk_Acknowledgement.pdf" 
+                   class="inline-flex items-center space-x-2 bg-white/20 hover:bg-white/30 border border border-white/40 text-white font-medium px-5 py-2.5 rounded-full text-sm transition-all hover:scale-105 active:scale-95 shadow-md">
+                    <i class="fa-solid fa-download text-xs"></i>
+                    <span data-translate="btn-risk">ข้อตกลงรับทราบความเสี่ยงด้านสินทรัพย์ดิจิทัล</span>
+                </a>
+
+            </div>
+
+            <div class="w-24 h-[1px] bg-white/30 mx-auto mt-12 mb-8"></div>
+
+            <div class="space-y-4">
+                <h3 class="text-sm font-medium tracking-wider uppercase text-gray-300" data-translate="contact-head">การติดต่อ</h3>
+                <div class="flex justify-center items-center gap-6 pt-2">
+                    <a href="https://www.facebook.com/profile.php?id=61590876254203" target="_blank" class="flex items-center space-x-2 bg-[#1877F2]/20 hover:bg-[#1877F2]/40 border border-[#1877F2]/50 px-5 py-2 rounded-xl transition-all hover:-translate-y-1">
+                        <i class="fa-brands fa-facebook text-xl text-[#1877F2]"></i>
+                        <span class="text-sm font-medium text-white">Facebook</span>
+                    </a>
+                    <a href="https://lin.ee/sALrE9O" target="_blank" class="flex items-center space-x-2 bg-[#06C755]/20 hover:bg-[#06C755]/40 border border-[#06C755]/50 px-5 py-2 rounded-xl transition-all hover:-translate-y-1">
+                        <i class="fa-brands fa-line text-xl text-[#06C755]"></i>
+                        <span class="text-sm font-medium text-white">Line Official</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-wrapper">
+            <div class="footer-top">
+                <span class="footer-logo">BBlockWallet.com</span>
+                <div class="footer-nav">
+                    <a href="bblock.html#hero">Features</a>
+                    <a href="bblock.html#assets">Assets</a>
+                    <a href="bblock.html#security">Security</a>
+                    <a href="bblock.html#support">Support</a>
+                    <a href="/pages/about.html">About</a>
+                    
+                    <div class="search-box">
+                        <input type="text" placeholder="ค้นหาฟังก์ชัน..." id="footer-search">
+                        <button id="search-submit" style="background:none; border:none; cursor:pointer;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+
+                    <div class="footer-icons">
+                        <button class="icon-btn-footer" id="theme-toggle-footer"><i class="fa-regular fa-moon" id="theme-icon-footer"></i></button>
+                        <button class="icon-btn-footer" id="lang-toggle-footer"><i class="fa-solid fa-globe"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom" data-translate="footer-copy">
+                Copyright © 2026 BBlockWallet.com. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- 🌟 เพิ่มสคริปต์ความคุมตรรกะแปลงภาษาและการสลับธีมโหมดมืดแบบครอบคลุมทั้งหน้าจอ 🌟 -->
+    <script>
+        // Dictionary คลังข้อมูลสลับภาษาของหน้า About
+        const translations = {
+            th: {
+                "nav-features": "Features", "nav-assets": "Assets", "nav-security": "Security", "nav-support": "Support", "nav-about": "About",
+                "main-title": "แพลตฟอร์มจัดการและส่งต่อมรดกดิจิทัลอย่างปลอดภัย",
+                "desc-1": "เพื่อให้ทุกสินทรัพย์ออนไลน์ของคุณถูกดูแลและส่งถึงมือคนที่คุณรักอย่างถูกต้อง ในยุคที่ชีวิตและสินทรัพย์ของเราย้ายไปอยู่บนโลกออนไลน์",
+                "desc-2": "แพลตฟอร์มนี้ถูกพัฒนาขึ้นมาเพื่อเปลี่ยนการบริหารจัดการและส่งต่อทรัพย์สินดิจิทัลให้เป็นเรื่องง่าย ปลอดภัย และเป็นอัตโนมัติ เพื่อปกป้องคุณค่าทุกสิ่งที่คุณสร้างไว้ให้อยู่ในมือผู้รับสืบทอดอย่างแท้จริง",
+                "btn-privacy": "นโยบายความเป็นส่วนตัว", "btn-terms": "ข้อตกลงและเงื่อนไขการใช้บริการ", "btn-risk": "ข้อตกลงรับทราบความเสี่ยงด้านสินทรัพย์ดิจิทัล",
+                "contact-head": "การติดต่อ", "footer-copy": "Copyright © 2026 BBlockWallet.com. All rights reserved."
+            },
+            en: {
+                "nav-features": "Features", "nav-assets": "Assets", "nav-security": "Security", "nav-support": "Support", "nav-about": "About",
+                "main-title": "Secure Digital Asset Inheritance Platform",
+                "desc-1": "Ensuring all your online assets are managed and safely delivered to your loved ones in an era where life and values transition into the digital world.",
+                "desc-2": "This platform was built to transform digital legacy administration into an easy, secured, and automated flow, preserving every value you created truly for your designated successors.",
+                "btn-privacy": "Privacy Policy", "btn-terms": "Terms & Conditions", "btn-risk": "Digital Asset Risk Acknowledgement",
+                "contact-head": "Contact Us", "footer-copy": "Copyright © 2026 BBlockWallet.com. All rights reserved."
+            }
+        };
+
+        let currentLang = 'th';
+
+        // กลไกการสลับและควบคุมภาษาแปลผล
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'th' ? 'en' : 'th';
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLang][key]) {
+                    element.innerText = translations[currentLang][key];
+                }
+            });
+            
+            document.getElementById('lang-label').innerText = currentLang === 'th' ? 'EN' : 'TH';
+        });
+
+        // ฟังก์ชันหัวใจสำคัญ: สั่ง Toggle คลาสสลับโหมดมืดที่คลุมโครงสร้าง Body ทั้งหมด
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            
+            // เช็กสถานะคลาสเพื่อทำการปรับเปลี่ยนไอคอนดวงอาทิตย์/ดวงจันทร์ให้ตรงกัน
+            const isDark = document.body.classList.contains('dark-mode');
+            const mainIcon = document.getElementById('theme-icon');
+            const footerIcon = document.getElementById('theme-icon-footer');
+            
+            const targetClass = isDark ? "fa-solid fa-sun text-yellow-400" : "fa-regular fa-moon";
+            if(mainIcon) mainIcon.className = targetClass;
+            if(footerIcon) footerIcon.className = isDark ? "fa-solid fa-sun text-yellow-400" : "fa-regular fa-moon";
+        }
+
+        // ผูกสิทธิ์ปุ่มทั้งเวอร์ชันบน Header และปุ่มล่างตรง Footer ให้เรียกใช้ฟังก์ชันเดียวกัน
+        document.getElementById('theme-toggle').addEventListener('click', toggleDarkMode);
+        
+        const footerThemeBtn = document.getElementById('theme-toggle-footer');
+        if(footerThemeBtn) {
+            footerThemeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleDarkMode();
+            });
+        }
+    </script>
+</body>
+</html>

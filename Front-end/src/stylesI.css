@@ -1,0 +1,538 @@
+/* รีเซ็ตค่าเริ่มต้น */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #1e293b;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* 1. NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.logo-container img {
+    height: 100%;     
+    width: auto;       
+    object-fit: contain;
+    max-height: 65px;  
+}
+
+.logo-box {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #a3e635, #22c55e);
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+.logo-text {
+    font-weight: 700;
+    font-size: 20px;
+    color: #1e293b;
+}
+
+.logo-subtext {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #7c3aed;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #475569;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: #7c3aed;
+}
+
+/* 2. HERO SECTION */
+.hero-section {
+    background: linear-gradient(to right, #1e1b4b, #581c87, #4c1d95);
+    color: #ffffff;
+    padding: 80px 0;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.hero-content h1 {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 24px;
+}
+
+.hero-content p {
+    color: #ddd6fe;
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 32px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 16px;
+}
+
+.btn {
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-white {
+    background: #ffffff;
+    color: #1e1b4b;
+    border: none;
+}
+
+.btn-white:hover {
+    background: #f3e8ff;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* 3. FEATURE SECTIONS */
+.feature-section {
+    padding: 96px 0;
+}
+
+.bg-light {
+    background-color: #f8fafc;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.feature-content h2 {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #0f172a;
+    margin-bottom: 24px;
+}
+
+.feature-content p {
+    color: #475569;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.text-left {
+    order: 2;
+}
+
+.qa-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.qa-link span {
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.qa-link:hover span {
+    transform: translateX(4px);
+}
+
+.feature-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.tilt-img {
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: rotate(-2deg);
+}
+
+.mobile-img {
+    width: 260px;
+    border-radius: 32px;
+    border: 8px solid #f1f5f9;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 5;
+}
+
+/* สี่เหลี่ยมขนมเปียกปูนพื้นหลังในดีไซน์ */
+.relative-shapes {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.shape {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 24px;
+    top: 30%;
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+.shape-1 {
+    background: rgba(124, 58, 237, 0.15);
+    left: 10%;
+}
+
+.shape-2 {
+    background: rgba(79, 70, 229, 0.1);
+    left: 20%;
+    transform: rotate(35deg);
+}
+
+/* 4. SECURITY SECTION */
+.security-section {
+    background: linear-gradient(to bottom, #f1f5f9, #e2e8f0, #cbd5e1);
+    padding: 96px 24px 140px 24px; /* เพิ่มตัวเลขตัวที่สาม (140px) เพื่อดันระยะห่างด้านล่างให้หน้าจอเลื่อนได้ง่ายขึ้นครับ */
+    text-align: center;
+}
+
+.security-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.security-main-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 64px;
+}
+
+.security-block h3 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.security-block p {
+    color: #475569;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.security-divider {
+    border: none;
+    border-top: 1px solid #b4f4f4; /* หรือสีสว่างตามดีไซน์ */
+    border-color: rgba(15, 23, 42, 0.1);
+    margin: 48px 0;
+}
+
+/* 5. FOOTER */
+.footer {
+    background-color: #0f172a;
+    color: #cbd5e1;
+    padding: 48px 0 32px 0;
+}
+
+.footer-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1e293b;
+    padding-bottom: 32px;
+}
+
+.footer-logo {
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.footer-nav a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.footer-nav a:hover {
+    color: #ffffff;
+}
+
+/* ช่องค้นหาใน Footer */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: #1e293b;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    outline: none;
+    width: 100px;
+}
+
+.search-box i {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.footer-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn-footer {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.icon-btn-footer:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Responsive เบื้องต้นสำหรับเปิดในมือถือ */
+@media (max-width: 968px) {
+    .hero-grid, .feature-grid, .footer-top {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .text-left {
+        order: 0;
+    }
+    .nav-links {
+        display: none; /* ซ่อนเมนูบนมือถือเพื่อความเรียบร้อยก่อน */
+    }
+    .footer-nav {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+/* สไตล์เพิ่มเติมสำหรับรองรับโหมดมืด (Dark Mode) */
+body.dark-mode {
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+
+body.dark-mode .navbar, 
+body.dark-mode .bg-light {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+body.dark-mode .nav-links a,
+body.dark-mode .icon-btn {
+    color: #cbd5e1;
+}
+
+body.dark-mode .nav-links a:hover,
+body.dark-mode .icon-btn:hover {
+    color: #a78bfa;
+}
+
+body.dark-mode .logo-text {
+    color: #f8fafc;
+}
+
+body.dark-mode .feature-content h2,
+body.dark-mode .security-main-title,
+body.dark-mode .security-block h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .feature-content p,
+body.dark-mode .security-block p {
+    color: #94a3b8;
+}
+
+body.dark-mode .security-section {
+    background: linear-gradient(to bottom, #1e293b, #0f172a);
+}
+
+body.dark-mode .security-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ไอคอนดวงอาทิตย์สีเหลืองตอนเปลี่ยนโหมด */
+.text-yellow-400 {
+    color: #f59e0b !important;
+}
+
+/* เพิ่มเพื่อให้ทั้งหน้าเว็บเลื่อนเปิดแบบ Smooth */
+html {
+    scroll-behavior: smooth;
+    /* แถมให้อีกนิด: เผื่อระยะเยื้องด้านบนไม่ให้หัวข้อโดน Navbar บังตอนเลื่อนลงมา */
+    scroll-padding-top: 80px; 
+}
+
+/* ค่าตั้งต้น Smooth scroll และระยะเบรกด้านบน */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; 
+}
+
+/* สีปกติของเมนูตอนไม่ได้เลือก (สีเทาจาง) */
+.nav-links a {
+    color: #64748b;
+    font-weight: 400;
+    transition: all 0.2s ease-in-out;
+}
+
+/* [Light Mode] เมื่อปุ่มถูกเลือก: เปลี่ยนเป็นสีดำเข้ม และหนาขึ้น */
+.nav-links a.active {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+/* [Dark Mode] เมื่อปุ่มถูกเลือก: เปลี่ยนเป็นสีขาวเข้มบริสุทธิ์ และหนาขึ้น */
+body.dark-mode .nav-links a.active {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+/* ปรับปรุงกล่องค้นหาฟังก์ชันที่ Footer */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    width: 180px; /* ขยายขนาดกล่องให้กว้างขึ้นเพื่อรองรับคำว่า ค้นหาฟังก์ชัน... */
+    transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    outline: none;
+    width: 100%;
+}
+
+.search-box i {
+    font-size: 13px;
+    color: #64748b;
+    transition: color 0.2s;
+}
+
+.search-box button:hover i {
+    color: #7c3aed; /* เปลี่ยนสีไอคอนแว่นขยายตอนเอาเมาส์ไปชี้ */
+}

@@ -1,0 +1,52 @@
+/* สไตล์เฉพาะกลุ่มหน้า Login, Register, Repassword */
+
+body {
+    font-family: 'Kanit', sans-serif !important;
+    /* ไล่เฉดสีม่วงจากบนลงล่างตามภาพหน้า Register ของคุณ */
+    background: linear-gradient(180deg, #1d0094 0%, #130066 50%, #0d0047 100%) !important;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* ปรับแต่งดีไซน์เงาและขอบของช่องกรอกข้อมูล (Input) ให้ดูมีมิติอินเตอร์เนชันแนล */
+input {
+    font-family: 'Kanit', sans-serif;
+    letter-spacing: 0.05em;
+}
+
+input::placeholder {
+    color: #6b7280; /* สีข้อความบอกใบ้ (Placeholder) */
+    opacity: 0.8;
+}
+
+/* สไตล์พิเศษสำหรับปุ่มกึ่งโปร่งแสงแนวโมเดิร์นมินิมอล */
+button[type="submit"] {
+    font-family: 'Kanit', sans-serif;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(4px);
+}
+
+/* เปลี่ยนสีตัวเลือกไอคอนปฏิทิน (Calendar Icon) ให้เป็นสีม่วงโทนเดียวกับเว็บ */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(30%) sepia(80%) saturate(4000%) hue-rotate(250deg) brightness(90%) contrast(100%);
+}
+
+/*login */
+/* การจัดเงาและการควบคุมการแสดงผลฟิลด์อินพุตในหน้า Login */
+.otp-input {
+    transition: all 0.2s ease-in-out;
+}
+
+/* เมื่อคลิกเลือกช่อง OTP ให้ขอบสว่างขึ้นเพิ่มความชัดเจน */
+.otp-input:focus {
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+    background-color: #ffffff !important;
+}
+
+/* ปิดปุ่มลูกศรเพิ่ม-ลดตัวเลขใน input ป้องกันโครงสร้างกล่องเบี้ยว */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

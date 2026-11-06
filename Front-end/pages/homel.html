@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBlockWallet - Dashboard</title>
+    <link rel="icon" type="image/png" href="/photo/B-removebg-preview-r.png">
+    <link rel="stylesheet" href="../src/stylesIII.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .user-profile-meta {
+            text-align: left !important;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 25px auto;
+            padding-left: 20px;
+        }
+
+        .chart-render-area {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 0 auto;
+            filter: drop-shadow(0 10px 20px rgba(99, 102, 241, 0.15));
+        }
+
+        .currency-gear-btn {
+            position: absolute;
+            right: 28px;
+            bottom: 28px;
+            background: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #475569;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            z-index: 50;
+            transition: transform 0.2s ease, color 0.2s;
+        }
+
+        .currency-gear-btn:hover {
+            transform: rotate(45deg);
+            color: #7c3aed;
+        }
+
+        .currency-popup-menu {
+            position: absolute;
+            right: -80px;
+            bottom: -50px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 6px 0;
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+            z-index: 100;
+        }
+
+        .currency-popup-menu button {
+            background: none;
+            border: none;
+            padding: 8px 14px;
+            text-align: left;
+            font-size: 13px;
+            cursor: pointer;
+            color: #334155;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .currency-popup-menu button:hover { background: #f1f5f9; color: #7c3aed; }
+        .currency-popup-menu button.active-currency { background-color: #f3e8ff; color: #7c3aed; font-weight: 700; }
+        .absolute-center-text { font-weight: 700 !important; letter-spacing: -0.3px; }
+        .slider-dots .dot { cursor: pointer; transition: background-color 0.2s; }
+        .slider-dots .dot.active { background-color: #475569 !important; }
+        .hidden { display: none !important; }
+
+        .side-setting-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .side-setting-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .side-setting-drawer {
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: 320px;
+            height: 100%;
+            background-color: #d1d5db;
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            padding: 30px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .side-setting-drawer.open { right: 0; }
+
+        .close-drawer-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #4b5563;
+        }
+
+        .drawer-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+
+        .drawer-menu-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .drawer-item-btn {
+            width: 100%;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-decoration: none;
+            box-sizing: border-box;
+            transition: background 0.2s, color 0.2s;
+        }
+        .drawer-item-btn i { font-size: 16px; margin-right: 15px; width: 20px; text-align: center; color: #1f2937; }
+
+        .drawer-item-btn.active-tab {
+            background-color: #4b5563 !important;
+            color: #ffffff !important;
+        }
+        .drawer-item-btn.active-tab i { color: #ffffff !important; }
+
+        .account-details-box {
+            width: 100%;
+            background-color: #9ca3af;
+            border: 1px solid #1f2937;
+            padding: 16px 14px;
+            margin-top: -6px;
+            margin-bottom: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .form-row label {
+            width: 100%;
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffffff;
+            text-align: left;
+            margin-bottom: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-row input {
+            width: 100%;
+            background-color: #e5e7eb;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #1f2937;
+            outline: none;
+            height: 30px;
+            box-sizing: border-box;
+        }
+
+        .form-row input[type="date"] {
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+        }
+
+        .form-row input[readonly] {
+            background-color: #cbd5e1;
+            color: #475569;
+            cursor: not-allowed;
+            font-weight: bold;
+        }
+
+        .form-row-split {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .btn-confirm-form {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            border: none;
+            border-radius: 15px;
+            padding: 6px 28px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 8px auto 0 auto;
+            display: block;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            transition: background 0.2s;
+        }
+        .btn-confirm-form:hover { background-color: #ffffff; }
+
+        .notify-details-box {
+            width: 100%;
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: -6px;
+            font-size: 12px;
+            color: #374151;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+
+        body.dark-mode { background-color: #0f172a !important; color: #f8fafc !important; }
+        body.dark-mode .navbar.dashboard-navbar { background-color: #1e293b !important; border-color: #334155 !important; }
+        body.dark-mode .nav-links a.nav-item { color: #94a3b8 !important; }
+        body.dark-mode .nav-links a.nav-item.active { color: #ffffff !important; }
+        body.dark-mode .icon-btn { color: #cbd5e1 !important; }
+        body.dark-mode .dashboard-title, body.dark-mode .absolute-center-text, body.dark-mode .owner-name { color: #ffffff !important; }
+        body.dark-mode .user-id-text, body.dark-mode .refresh-timestamp { color: #94a3b8 !important; }
+        
+        body.dark-mode .currency-popup-menu { background: #1e293b !important; border-color: #334155 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important; }
+        body.dark-mode .currency-popup-menu button { color: #cbd5e1 !important; }
+        body.dark-mode .currency-popup-menu button:hover { background: #334155 !important; color: #ffffff !important; }
+        body.dark-mode .currency-popup-menu button.active-currency { background-color: #3b0764 !important; color: #a855f7 !important; }
+        body.dark-mode .currency-gear-btn { background: #1e293b !important; color: #cbd5e1 !important; }
+        
+        body.dark-mode .side-setting-drawer { background-color: #1e293b !important; }
+        body.dark-mode .drawer-title, body.dark-mode .close-drawer-btn { color: #ffffff !important; }
+        body.dark-mode .drawer-item-btn { background: #334155; color: #cbd5e1; }
+        body.dark-mode .drawer-item-btn i { color: #ffffff; }
+        body.dark-mode .drawer-item-btn:hover { background: #475569; color: #ffffff; }
+        body.dark-mode .account-details-box { background-color: #334155; border-color: #475569; }
+        body.dark-mode .account-details-box input[readonly] { background-color: #1e293b; color: #94a3b8; }
+        body.dark-mode .notify-details-box { background-color: #334155; color: #cbd5e1; }
+
+        body.dark-mode .chart-render-area { filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5)); }
+        body.dark-mode .crypto-carousel-wrapper .coin-status-card { background: linear-gradient(to bottom, #4c1d95, #3b0764) !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important; }
+        body.dark-mode .btn-next-carousel { color: #ffffff !important; }
+        .text-yellow-400 { color: #f59e0b !important; }
+    </style>
+</head>
+<body class="dashboard-page">
+
+    <header class="navbar dashboard-navbar">
+        <div class="logo-container">
+            <img src="/photo/B-removebg-preview (1).png" alt="BBlockWallet Logo" class="logo-img">
+        </div>
+        <nav class="nav-links">
+            <a href="/public/homel.html" class="nav-item active" data-translate="nav-home">Home</a>
+            <a href="/public/index.html" class="nav-item" data-translate="nav-vault">Digital Vault Legacy</a>
+            <a href="javascript:void(0);" class="nav-item" id="nav-setting-trigger" data-translate="nav-setting">Setting</a>
+            
+            <button class="icon-btn" id="theme-toggle">
+                <i class="fa-regular fa-moon" id="theme-icon"></i>
+            </button>
+            <button class="icon-btn" id="lang-toggle">
+                <i class="fa-solid fa-globe"></i>
+                <span id="lang-label" style="font-size: 11px; font-weight: bold; margin-left: 2px;">EN</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="dashboard-container">
+        <div class="user-profile-meta">
+            <h1 class="dashboard-title" data-translate="account-title">My Account</h1>
+            <p class="user-id-text">User ID: A00-000-00</p>
+        </div>
+
+        <div class="portfolio-chart-box">
+            <h2 class="owner-name">Name</h2>
+            <div class="chart-render-area">
+                <canvas id="dashboardDonutChart"></canvas>
+                <div class="absolute-center-text" id="total-asset-value">Crypto currency</div>
+                
+                <button class="currency-gear-btn hidden" id="currency-toggle-btn" title="เลือกสกุลเงิน">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+
+                <!-- ป๊อปอัพตัวเลือกสกุลเงิน -->
+                <div class="currency-popup-menu hidden" id="currency-menu">
+                    <button onclick="changeCurrency('THB')" id="opt-thb">บาท (฿) <span class="check-mark hidden">✓</span></button>
+                    <button onclick="changeCurrency('CNY')" id="opt-cny">หยวน (¥) <span class="check-mark hidden">✓</span></button>
+                    <button onclick="changeCurrency('USD')" id="opt-usd">ดอลลาร์ ($) <span class="check-mark hidden">✓</span></button>
+                </div>
+            </div>
+            <!-- ป้ายแสดงเวลาสถานะข้อมูลแบบนิ่ง ปลอดภัย ไม่เด้งแจ้งเตือนกวนใจ -->
+            <p class="refresh-timestamp" id="live-clock"><i class="fa-solid fa-rotate"></i> กำลังอัปเดตข้อมูลราคา...</p>
+            
+            <div class="slider-dots">
+                <span class="dot active" id="dot-page-1"></span>
+                <span class="dot" id="dot-page-2"></span>
+            </div>
+        </div>
+
+        <div class="asset-summary-card">
+            <h3 class="card-title-text" data-translate="asset-title">รายการทรัพย์สิน</h3>
+            <div class="assets-list-group" id="asset-breakdown-list">
+                <!-- เนื้อหาคำนวณเงิน -->
+            </div>
+        </div>
+
+        <!-- ชุดการ์ดเหรียญด้านล่างดั้งเดิมของคุณ -->
+        <div class="crypto-carousel-wrapper">
+            <div class="carousel-track" id="crypto-realtime-track"></div>
+            <a href="javascript:void(0);" class="btn-next-carousel" id="btn-next-crypto">NEXT <span>▶</span></a>
+        </div>
+    </main>
+
+    <!-- หน้าต่างแผงควบคุมสไลด์จากด้านข้างขวา -->
+    <div class="side-setting-overlay" id="setting-overlay"></div>
+    <div class="side-setting-drawer" id="setting-drawer">
+        <button class="close-drawer-btn" id="close-drawer-btn">×</button>
+        <div class="drawer-title" data-translate="menu-setting-title">Setting</div>
+        
+        <div class="drawer-menu-group">
+            <!-- ปุ่มที่ 1: การตั้งค่าบัญชี -->
+            <button class="drawer-item-btn" id="btn-tab-account">
+                <i class="fa-regular fa-user"></i> <span data-translate="menu-account">การตั้งค่าบัญชี</span>
+            </button>
+            
+            <!-- แผงฟอร์มตั้งค่าบัญชี -->
+            <div class="account-details-box hidden" id="account-details-form">
+                <div class="form-row">
+                    <label data-translate="lbl-name">ชื่อ:</label>
+                    <input type="text" id="input-name" value="Name">
+                </div>
+                <div class="form-row-split">
+                    <div class="form-row" style="width: 68%;">
+                        <label data-translate="lbl-birthday">วัน เดือน ปีเกิด:</label>
+                        <input type="date" id="input-birthdate" value="2000-02-26">
+                    </div>
+                    <div class="form-row" style="width: 32%;">
+                        <label data-translate="lbl-age">อายุ:</label>
+                        <input type="text" id="input-age" value="26" readonly>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label data-translate="lbl-email">อีเมล:</label>
+                    <input type="email" id="input-email" value="sample@bblock.com">
+                </div>
+                <button class="btn-confirm-form" id="btn-account-confirm" data-translate="btn-confirm">ยืนยัน</button>
+            </div>
+
+            <!-- ปุ่มเปลี่ยนรหัสผ่าน -->
+            <a href="repasswordI.html" class="drawer-item-btn" id="btn-tab-password">
+                <i class="fa-solid fa-lock"></i> <span data-translate="menu-password">เปลี่ยนรหัสผ่าน</span>
+            </a>
+
+            <!-- ปุ่มที่ 3: การแจ้งเตือน -->
+            <button class="drawer-item-btn" id="btn-tab-notify">
+                <i class="fa-regular fa-bell"></i> <span data-translate="menu-notify">การแจ้งเตือน</span>
+            </button>
+            <div class="notify-details-box hidden" id="notify-details-panel">
+                <p style="font-weight:bold; margin-bottom:4px;" data-translate="notif-head">ระบบอัปเดตเวอร์ชันล่าสุด</p>
+                <span data-translate="notif-body">เชื่อมต่อระบบประเมินมูลค่าสินทรัพย์และอัตราแลกเปลี่ยน Real-time ปลอดภัยสมบูรณ์แบบแล้ว</span>
+            </div>
+
+            <!-- ปุ่มที่ 4: ออกจากระบบ -->
+            <button class="drawer-item-btn" id="btn-tab-logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-translate="menu-logout">ออกจากระบบ</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. ระบบคลังข้อมูลการแปลภาษา
+        // ==========================================
+        const translations = {
+            th: { 
+                "nav-home": "Home", "nav-vault": "Digital Vault Legacy", "nav-setting": "Setting", "account-title": "My Account", "asset-title": "รายการทรัพย์สิน",
+                "opt-thb": "บาท (฿)", "opt-cny": "หยวน (¥)", "opt-usd": "ดอลลาร์ ($)",
+                "menu-setting-title": "Setting", "menu-account": "การตั้งค่าบัญชี", "menu-password": "เปลี่ยนรหัสผ่าน", "menu-notify": "การแจ้งเตือน", "menu-logout": "ออกจากระบบ",
+                "lbl-name": "ชื่อ:", "lbl-birthday": "วัน เดือน ปีเกิด:", "lbl-age": "อายุ:", "lbl-email": "อีเมล:", "btn-confirm": "ยืนยัน",
+                "notif-head": "ประวัติการเข้าสู่ระบบล่าสุด", "notif-body": "กำลังโหลดข้อมูล...",
+                "no-assets-warn": "⚠️ ยังไม่มีรายการทรัพย์สินปรากฏ (โปรดเชื่อมต่อกระเป๋าเงิน MetaMask ของคุณ)"
+            },
+            en: { 
+                "nav-home": "Home", "nav-vault": "Digital Vault Legacy", "nav-setting": "Setting", "account-title": "My Account", "asset-title": "Asset Balance",
+                "opt-thb": "Baht (฿)", "opt-cny": "Yuan (¥)", "opt-usd": "Dollar ($)",
+                "menu-setting-title": "Setting", "menu-account": "Account Settings", "menu-password": "Change Password", "menu-notify": "Notifications", "menu-logout": "Log Out",
+                "lbl-name": "Name:", "lbl-birthday": "Birthdate:", "lbl-age": "Age:", "lbl-email": "Email:", "btn-confirm": "Confirm",
+                "notif-head": "Recent Login History", "notif-body": "Loading information...",
+                "no-assets-warn": "⚠️ No assets found (Please connect your MetaMask wallet)"
+            }
+        };
+        let currentLang = 'th';
+        let lastUpdateTime = new Date(); 
+
+        let blockchainData = {
+            vaultOwner: "",
+            reserveBalance: 0, 
+            heirs: []          
+        };
+
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'th' ? 'en' : 'th';
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLang][key]) element.innerHTML = translations[currentLang][key];
+            });
+            
+            const checkTHB = selectedCurrency === 'THB' ? ' <span class="check-mark">✓</span>' : ' <span class="check-mark hidden">✓</span>';
+            const checkCNY = selectedCurrency === 'CNY' ? ' <span class="check-mark">✓</span>' : ' <span class="check-mark hidden">✓</span>';
+            const checkUSD = selectedCurrency === 'USD' ? ' <span class="check-mark">✓</span>' : ' <span class="check-mark hidden">✓</span>';
+
+            document.getElementById('opt-thb').innerHTML = translations[currentLang]["opt-thb"] + checkTHB;
+            document.getElementById('opt-cny').innerHTML = translations[currentLang]["opt-cny"] + checkCNY;
+            document.getElementById('opt-usd').innerHTML = translations[currentLang]["opt-usd"] + checkUSD;
+            
+            document.getElementById('lang-label').innerText = currentLang === 'th' ? 'EN' : 'TH';
+            
+            updateDashboardUI();
+            updateTimestampText();
+        });
+
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.className = document.body.classList.contains('dark-mode') ? "fa-solid fa-sun text-yellow-400" : "fa-regular fa-moon";
+        });
+
+        function updateTimestampText() {
+            const clockEl = document.getElementById('live-clock');
+            if (currentLang === 'th') {
+                clockEl.innerHTML = `<i class="fa-solid fa-rotate"></i> ข้อมูล ณ ${lastUpdateTime.toLocaleDateString('th-TH')} ${lastUpdateTime.toLocaleTimeString('th-TH')}`;
+            } else {
+                const day = String(lastUpdateTime.getDate()).padStart(2, '0');
+                const month = String(lastUpdateTime.getMonth() + 1).padStart(2, '0');
+                const year = lastUpdateTime.getFullYear();
+                const time = lastUpdateTime.toLocaleTimeString('en-US', { hour12: false });
+                clockEl.innerHTML = `<i class="fa-solid fa-rotate"></i> Data as of ${day}/${month}/${year} ${time}`;
+            }
+        }
+
+        // ==========================================
+        // 2. ระบบเชื่อมโยงข้อมูลโปรไฟล์ผู้ใช้และข้อมูลหลังบ้าน
+        // ==========================================
+        const drawer = document.getElementById('setting-drawer');
+        const overlay = document.getElementById('setting-overlay');
+        const btnAccount = document.getElementById('btn-tab-account');
+        const formAccount = document.getElementById('account-details-form');
+        const btnNotify = document.getElementById('btn-tab-notify');
+        const panelNotify = document.getElementById('notify-details-panel');
+
+        const loginToken = localStorage.getItem('bblock_user_token');
+        if (!loginToken) {
+            alert("⚠️ ตรวจไม่พบสิทธิ์การเข้าใช้งาน โปรดเข้าสู่ระบบก่อนครับ");
+            window.location.href = "login.html";
+        }
+
+        async function fetchUserDatabaseProfile() {
+            try {
+                const response = await fetch('/api/user/profile', {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${loginToken}` }
+                });
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    document.querySelector('.user-id-text').innerText = `User ID: ${result.data.uid}`;
+                    document.querySelector('.owner-name').innerText = result.data.name;
+
+                    document.getElementById('input-name').value = result.data.name;
+                    document.getElementById('input-email').value = result.data.email;
+                    
+                    if (result.data.birthDate) {
+                        const cleanDate = result.data.birthDate.split('T')[0];
+                        document.getElementById('input-birthdate').value = cleanDate;
+                        triggerAgeCalculation(cleanDate);
+                    }
+                    
+                    renderLoginLogsNotification(result.data.logs);
+
+                    if (result.data.walletAddress) {
+                        localStorage.setItem('user_wallet_address', result.data.walletAddress);
+                    } else {
+                        localStorage.removeItem('user_wallet_address');
+                    }
+                } else {
+                    localStorage.removeItem('bblock_user_token');
+                    localStorage.removeItem('user_wallet_address');
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error("❌ ไม่สามารถดึงโปรไฟล์ผู้ใช้ได้:", error);
+            }
+        }
+
+        async function fetchSmartContractData(walletAddress) {
+            try {
+                const response = await fetch(`/api/vault/data/${walletAddress}`);
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    blockchainData.vaultOwner = result.data.vaultOwner;
+                    blockchainData.reserveBalance = parseFloat(result.data.reserveBalanceETH || 0);
+                    blockchainData.heirs = result.data.heirs || [];
+
+                    lastUpdateTime = new Date();
+                    updateTimestampText();
+                    updateDashboardUI();
+                } else {
+                    console.error("❌ ดึงข้อมูล Smart Contract ไม่สำเร็จ:", result.message);
+                }
+            } catch (error) {
+                console.error("❌ เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์บล็อกเชน:", error);
+            }
+        }
+
+        async function initBlockchainData() {
+            const userWalletAddress = localStorage.getItem('user_wallet_address');
+            if (userWalletAddress) {
+                await fetchSmartContractData(userWalletAddress);
+            } else {
+                updateDashboardUI();
+            }
+        }
+
+        function renderLoginLogsNotification(logs) {
+            if (!logs || logs.length === 0) {
+                panelNotify.innerHTML = `<span>ไม่พบประวัติกิจกรรมล่าสุด</span>`;
+                return;
+            }
+            let logHTML = `<p style="font-weight:bold; margin-bottom:6px; color:#1f2937;">📌 ประวัติกิจกรรมและแจ้งเตือนล่าสุด</p>`;
+            logs.slice(0, 5).forEach(log => {
+                const logDate = new Date(log.timestamp);
+                logHTML += `
+                    <div style="border-bottom: 1px dashed #cbd5e1; padding: 6px 0; font-size: 11px; line-height:1.4; text-align: left;">
+                        🎯 <b>กิจกรรม:</b> ${log.action}<br>
+                        ⏱️ <b>เวลา:</b> ${logDate.toLocaleString('th-TH')}<br>
+                        💻 <b>อุปกรณ์:</b> ${log.device}<br>
+                        🌐 <b>ไอพี:</b> ${log.ip}
+                    </div>
+                `;
+            });
+            panelNotify.innerHTML = logHTML;
+        }
+
+        function triggerAgeCalculation(birthDateStr) {
+            const birthDate = new Date(birthDateStr);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            document.getElementById('input-age').value = age >= 0 ? age : 0;
+        }
+
+        document.getElementById('input-birthdate').addEventListener('change', function() {
+            triggerAgeCalculation(this.value);
+        });
+
+        document.getElementById('nav-setting-trigger').addEventListener('click', () => {
+            fetchUserDatabaseProfile();
+            formAccount.classList.add('hidden');
+            panelNotify.classList.add('hidden');
+            btnAccount.classList.remove('active-tab');
+            btnNotify.classList.remove('active-tab');
+            drawer.classList.add('open');
+            overlay.classList.add('open');
+        });
+
+        const closeSettingDrawer = () => {
+            drawer.classList.remove('open');
+            overlay.classList.remove('open');
+        };
+        document.getElementById('close-drawer-btn').addEventListener('click', closeSettingDrawer);
+        overlay.addEventListener('click', closeSettingDrawer);
+        
+        btnAccount.addEventListener('click', () => {
+            const isCurrentlyHidden = formAccount.classList.contains('hidden');
+            if (isCurrentlyHidden) {
+                panelNotify.classList.add('hidden');
+                btnNotify.classList.remove('active-tab');
+                btnAccount.classList.add('active-tab');
+                formAccount.classList.remove('hidden');
+            } else {
+                formAccount.classList.add('hidden');
+                btnAccount.classList.remove('active-tab');
+            }
+        });
+
+        btnNotify.addEventListener('click', () => {
+            const isCurrentlyHidden = panelNotify.classList.contains('hidden');
+            if (isCurrentlyHidden) {
+                formAccount.classList.add('hidden');
+                btnAccount.classList.remove('active-tab');
+                btnNotify.classList.add('active-tab');
+                panelNotify.classList.remove('hidden');
+            } else {
+                panelNotify.classList.add('hidden');
+                btnNotify.classList.remove('active-tab');
+            }
+        });
+
+        document.getElementById('btn-account-confirm').addEventListener('click', async () => {
+            const updatedName = document.getElementById('input-name').value;
+            const updatedBirthdate = document.getElementById('input-birthdate').value;
+            const updatedEmail = document.getElementById('input-email').value;
+
+            if (!updatedName || !updatedBirthdate || !updatedEmail) {
+                alert("⚠️ โปรดระบุข้อมูลส่วนตัวให้ครบถ้วนทุกช่องครับ");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/user/profile-update', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${loginToken}`
+                    },
+                    body: JSON.stringify({ name: updatedName, birthDate: updatedBirthdate, email: updatedEmail })
+                });
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert(currentLang === 'th' ? "🎉 บันทึกอัปเดตข้อมูลลงฐานข้อมูลสำเร็จ!" : "🎉 Profile settings successfully updated!");
+                    closeSettingDrawer();
+                    fetchUserDatabaseProfile();
+                } else {
+                    alert("❌ แก้ไขไม่สำเร็จ: " + result.message);
+                }
+            } catch (error) {
+                alert("❌ ระบบขัดข้อง ไม่สามารถเขียนบันทึกอัปเดตลงคลาวด์ได้");
+            }
+        });
+
+        document.getElementById('btn-tab-logout').addEventListener('click', () => {
+            if(confirm(currentLang === 'th' ? "คุณต้องการออกจากระบบใช่หรือไม่?" : "Are you sure you want to log out?")) {
+                localStorage.removeItem('bblock_user_token');
+                localStorage.removeItem('user_wallet_address');
+                localStorage.removeItem('bblock_is_logged_out');
+                window.location.href = "login.html";
+            }
+        });
+
+        // ==========================================
+        // 3. ระบบควบคุมการแสดงผลตามหน้า (Page 1 และ Page 2) และการคำนวณเงินสินทรัพย์
+        // ==========================================
+        // ==========================================
+// 3. ระบบควบคุมการแสดงผลตามหน้า (Page 1 และ Page 2) และการคำนวณเงินสินทรัพย์
+// ==========================================
+let currentPage = 1; 
+let selectedCurrency = 'THB'; 
+
+// กำหนดค่าตั้งต้นอัตราแลกเปลี่ยน (มีระบบดึงเรทสดจาก API มาอัปเดตอัตโนมัติ)
+let currencyConfig = { 
+    THB: { symbol: ' THB', rate: 35.00 }, 
+    CNY: { symbol: ' CNY', rate: 7.25 }, 
+    USD: { symbol: ' USD', rate: 1.00 } 
+};
+
+// ฟังก์ชันดึงอัตราแลกเปลี่ยนค่าเงินสดจาก API ภายนอกมาอัปเดตเรท Fiat
+async function fetchLatestExchangeRates() {
+    try {
+        const response = await fetch('https://open.er-api.com/v6/latest/USD');
+        const data = await response.json();
+        if (data && data.rates) {
+            if (data.rates.THB) currencyConfig.THB.rate = data.rates.THB;
+            if (data.rates.CNY) currencyConfig.CNY.rate = data.rates.CNY;
+            currencyConfig.USD.rate = 1.00;
+        }
+    } catch (error) {
+        console.warn("⚠️ ไม่สามารถดึงอัตราแลกเปลี่ยนค่าเงินได้, ใช้เรทสำรองเดิมแทน", error);
+    }
+}
+
+        function updateDashboardUI() {
+            const totalValueText = document.getElementById('total-asset-value');
+            const gearBtn = document.getElementById('currency-toggle-btn');
+            const popupMenu = document.getElementById('currency-menu');
+            const breakdownContainer = document.getElementById('asset-breakdown-list');
+
+            document.querySelectorAll('.currency-popup-menu button').forEach(btn => {
+                btn.classList.remove('active-currency');
+                if(btn.querySelector('.check-mark')) btn.querySelector('.check-mark').classList.add('hidden');
+            });
+
+            if (!blockchainData.heirs || blockchainData.heirs.length === 0) {
+                const blankWarnMessage = translations[currentLang]["no-assets-warn"];
+                breakdownContainer.innerHTML = `
+                    <div style="font-size: 13px; color: #94a3b8; font-weight: 500; text-align: center; padding: 16px 0; font-style: italic; letter-spacing: 0.2px;">
+                        ${blankWarnMessage}
+                    </div>
+                `;
+                totalValueText.innerText = currentPage === 1 ? "0.00 ETH" : (0).toFixed(2) + " " + selectedCurrency;
+                gearBtn.classList.toggle('hidden', currentPage === 1);
+                return;
+            }
+
+            if (currentPage === 1) {
+                const totalETH = parseFloat(blockchainData.reserveBalance || 0);
+                totalValueText.innerText = totalETH.toFixed(4) + " ETH";
+
+                gearBtn.classList.add('hidden'); 
+                popupMenu.classList.add('hidden'); 
+
+                let heirsHTML = `<div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">`;
+                blockchainData.heirs.forEach((heir, index) => {
+                    heirsHTML += `
+                        <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(0,0,0,0.03); border-radius: 6px; font-size: 13px;">
+                            <span><b>ทายาทคนที่ ${index + 1}:</b> ${heir.walletAddress}</span>
+                            <span style="font-weight: bold; color: #7c3aed;">${heir.percentage}%</span>
+                        </div>
+                    `;
+                });
+                heirsHTML += `</div>`;
+                breakdownContainer.innerHTML = heirsHTML;
+
+            } else {
+                gearBtn.classList.remove('hidden'); 
+                const activeBtn = document.getElementById(`opt-${selectedCurrency.toLowerCase()}`);
+                if(activeBtn) {
+                    activeBtn.classList.add('active-currency');
+                    if(activeBtn.querySelector('.check-mark')) activeBtn.querySelector('.check-mark').classList.remove('hidden');
+                }
+                
+                const currentRate = currencyConfig[selectedCurrency].rate;
+                const totalConverted = blockchainData.reserveBalance * currentRate;
+                totalValueText.innerText = totalConverted.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " " + selectedCurrency;
+
+                let assetHTML = `<div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">`;
+                blockchainData.heirs.forEach((heir, index) => {
+                    const heirAmount = (blockchainData.reserveBalance * (heir.percentage / 100)) * currentRate;
+                    assetHTML += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(0,0,0,0.03); border-radius: 6px; font-size: 13px;">
+                            <div>
+                                <span style="display: block; font-weight: bold;">ทายาท: ${heir.walletAddress.substring(0, 6)}...${heir.walletAddress.substring(38)}</span>
+                                <span style="font-size: 11px; color: #64748b;">สัดส่วน: ${heir.percentage}%</span>
+                            </div>
+                            <span style="font-weight: bold; color: #059669;">${heirAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${selectedCurrency}</span>
+                        </div>
+                    `;
+                });
+                assetHTML += `</div>`;
+                breakdownContainer.innerHTML = assetHTML;
+            }
+        }
+
+        document.getElementById('currency-toggle-btn').addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            document.getElementById('currency-menu').classList.toggle('hidden');
+        });
+
+        function changeCurrency(currencyCode) {
+            selectedCurrency = currencyCode;
+            document.getElementById('currency-menu').classList.add('hidden'); 
+            updateDashboardUI();
+            renderMarketCards(); 
+        }
+
+        document.addEventListener('click', () => {
+            document.getElementById('currency-menu').classList.add('hidden');
+        });
+
+        document.getElementById('dot-page-1').addEventListener('click', () => {
+            currentPage = 1;
+            document.getElementById('dot-page-1').classList.add('active');
+            document.getElementById('dot-page-2').classList.remove('active');
+            updateDashboardUI();
+        });
+
+        document.getElementById('dot-page-2').addEventListener('click', () => {
+            currentPage = 2;
+            document.getElementById('dot-page-2').classList.add('active');
+            document.getElementById('dot-page-1').classList.remove('active');
+            updateDashboardUI();
+        });
+
+        const chartCtx = document.getElementById('dashboardDonutChart').getContext('2d');
+        const grayGradient = chartCtx.createLinearGradient(0, 0, 0, 250);
+        grayGradient.addColorStop(0, '#cbd5e1'); 
+        grayGradient.addColorStop(1, '#94a3b8'); 
+
+        new Chart(chartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Empty Wallet'],
+                datasets: [{ data: [100], backgroundColor: [grayGradient], borderWidth: 0 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                cutout: '72%', 
+                radius: '95%'
+            }
+        });
+
+        const API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false";
+        let liveCryptoList = [];
+        let isShowAll = false;
+
+        async function updateLiveMarketPrices() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("API Connection error");
+                liveCryptoList = await response.json();
+                renderMarketCards();
+                
+                lastUpdateTime = new Date(); 
+                updateTimestampText();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function renderMarketCards() {
+            const trackContainer = document.getElementById('crypto-realtime-track');
+            if(!trackContainer) return;
+            trackContainer.innerHTML = ""; 
+
+            const defaultDesignOrder = ['btc', 'bch', 'eth', 'ltc', 'sol', 'xrp', 'doge'];
+            let displayList = isShowAll ? liveCryptoList : liveCryptoList.filter(coin => defaultDesignOrder.includes(coin.symbol.toLowerCase()));
+
+            if (!isShowAll) {
+                displayList.sort((a, b) => defaultDesignOrder.indexOf(a.symbol.toLowerCase()) - defaultDesignOrder.indexOf(b.symbol.toLowerCase()));
+            }
+
+            const currentRate = currencyConfig[selectedCurrency].rate;
+            const currencySymbol = currencyConfig[selectedCurrency].symbol;
+
+            displayList.forEach(coin => {
+                const convertedPrice = coin.current_price * currentRate;
+                const change24h = coin.price_change_percentage_24h || 0;
+                const cardHTML = `
+                    <div class="coin-status-card">
+                        <img src="${coin.image}" alt="${coin.name}" class="coin-logo ${coin.symbol.toLowerCase() === 'xrp' ? 'xrp-bg' : ''}">
+                        <span class="coin-title">${coin.name} <span class="symbol-tag">${coin.symbol.toUpperCase()}</span></span>
+                        <span class="coin-fiat-value">${convertedPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 5 })}${currencySymbol}</span>
+                        <span class="change-tag ${change24h >= 0 ? 'pos' : 'neg'}">${change24h >= 0 ? '+' : ''}${change24h.toFixed(2)}%</span>
+                    </div>
+                `;
+                trackContainer.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+    fetchUserDatabaseProfile(); 
+    initBlockchainData(); 
+    
+    // ดึงเรทค่าเงินสดและดึงข้อมูลเหรียญคริปโตฯ พร้อมกันอย่างปลอดภัย
+    fetchLatestExchangeRates().then(() => {
+        updateLiveMarketPrices(); 
+    });
+    
+    setInterval(updateLiveMarketPrices, 30000);
+
+    const nextToggleBtn = document.getElementById('btn-next-crypto');
+    if (nextToggleBtn) {
+        nextToggleBtn.addEventListener('click', () => {
+            isShowAll = !isShowAll;
+            nextToggleBtn.innerHTML = isShowAll ? `BACK <span>◀</span>` : `NEXT <span>▶</span>`;
+            renderMarketCards();
+        });
+    }
+});
+    </script>
+</body>
+</html>

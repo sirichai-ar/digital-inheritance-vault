@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBlockWallet - Support & FAQ</title>
+    <link rel="icon" type="image/png" href="/photo/B-removebg-preview-r.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../src/stylesI.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            /* 🌟 แก้ไข: ปรับลดความสว่างขาวโพลนด้านบนสุดลง จาก #ffffff เป็น #cbd5e1 เพื่อเพิ่ม Contrast ให้อ่านอักษรชัดเจน 🌟 */
+            background: linear-gradient(180deg, #cbd5e1 0%, #6366f1 50%, #0c0b24 100%);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        
+        /* สไตล์สำหรับ Dark Mode คุมสีกระจกพื้นหลัง */
+        body.dark-mode {
+            background: linear-gradient(180deg, #0f172a 0%, #312e81 50%, #020617 100%) !important;
+            color: #f8fafc !important;
+        }
+        body.dark-mode .main-card-box {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 600px;
+            padding-top: 1rem;
+        }
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+        .text-yellow-400 { color: #f59e0b !important; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between text-white">
+
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="/photo/B-removebg-preview (1).png" alt="BBlockWallet Logo" class="logo-img">
+        </div>
+        <nav class="nav-links" id="nav-menu">
+            <a href="bblock.html#hero" data-translate="nav-features" class="nav-item">Features</a>
+            <a href="bblock.html#assets" data-translate="nav-assets" class="nav-item">Assets</a>
+            <a href="bblock.html#security" data-translate="nav-security" class="nav-item">Security</a>
+            <a href="/pages/support.html" data-translate="nav-support" class="nav-item active">Support</a>
+            <a href="/pages/about.html" data-translate="nav-about" class="nav-item">About</a>
+            
+            <button class="icon-btn" id="theme-toggle">
+                <i class="fa-regular fa-moon" id="theme-icon"></i>
+            </button>
+            
+            <button class="icon-btn" id="lang-toggle">
+                <i class="fa-solid fa-globe"></i>
+                <span id="lang-label" style="font-size: 11px; font-weight: bold; margin-left: 2px;">EN</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ส่วนเนื้อหาหลักศูนย์ช่วยเหลือ -->
+    <main class="flex-grow flex items-center justify-center px-4 py-24">
+        <div class="main-card-box w-full max-w-[850px] bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 md:p-10 shadow-2xl">
+            
+            <div class="text-center mb-10">
+                <h1 class="text-2xl md:text-3xl font-bold mb-3" data-translate="page-title">ศูนย์ช่วยเหลือและคำถามที่พบบ่อย (FAQ)</h1>
+                <p class="text-gray-200 text-sm md:text-base font-light" data-translate="page-desc">ค้นหาวิธีแก้ไขปัญหาเบื้องต้นเกี่ยวกับการใช้งานกระเป๋าเงินและมรดกดิจิทัล</p>
+            </div>
+
+            <!-- กล่องรายการ FAQ Accordion ทั้งหมด 10 ข้อ -->
+            <div class="space-y-4">
+                
+                <!-- ข้อ 1 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-1">
+                    <button onclick="toggleFaq('faq-1')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q1">1. ทำไมระบบไม่คำนวณราคาเหรียญ Real-time ในบางช่วงเวลา?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a1">ปัญหานี้มักเกิดจากการเชื่อมต่อ API อัตราแลกเปลี่ยนภายนอกเกิดความล่าช้า หรือเครือข่ายอินเทอร์เน็ตของท่านไม่เสถียร เบื้องต้นแนะนำให้ทดลองกดปุ่มรีเฟรช (<i class="fa-solid fa-rotate text-xs"></i>) บริเวณข้างนาฬิกาบนหน้าแดชบอร์ด หรือเว้นระยะเวลา 30 วินาทีเพื่อให้ระบบโหลดข้อมูลชุดใหม่ครับ</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-1', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-1', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                        <div class="survey-area hidden mt-3 pt-3 border-t border-dashed border-white/10 text-xs bg-black/20 p-3 rounded-lg">
+                            <p class="font-medium mb-2 text-indigo-300" data-translate="survey-head">ขอบคุณสำหรับข้อมูล โปรดเลือกเหตุผลเพื่อสถิติการปรับปรุงระบบ:</p>
+                            <label class="flex items-center gap-2 mb-1.5 cursor-pointer"><input type="radio" name="reason-1" value="unclear"> <span data-translate="reason-unclear">เนื้อหาไม่ชัดเจน เข้าใจยาก</span></label>
+                            <label class="flex items-center gap-2 mb-2 cursor-pointer"><input type="radio" name="reason-1" value="not-working"> <span data-translate="reason-not-working">ทำตามแล้วแต่ยังไม่สามารถแก้ปัญหาได้</span></label>
+                            <button onclick="submitSurvey('faq-1')" class="bg-indigo-500 hover:bg-indigo-600 px-3 py-1 rounded text-white font-medium block ml-auto transition" data-translate="btn-submit">ส่งแบบสำรวจ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 2 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-2">
+                    <button onclick="toggleFaq('faq-2')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q2">2. หากลืมรหัสผ่าน Private Key หรือ Seed Phrase จะกู้คืนอย่างไร?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a2">เนื่องจาก BBlockWallet ใช้ระบบความปลอดภัยความคุ้มครองสินทรัพย์แบบกระจายศูนย์ (Decentralized Wallet) ทางโปรเจกต์จะไม่มีการเก็บรหัสส่วนตัวใดๆ ไว้บนเซิร์ฟเวอร์หลัก หากท่านทำหาย จะไม่สามารถกู้คืนผ่านระบบได้ ท่านจำเป็นต้องใช้ **Seed Phrase (วลีสำรอง 12 คำ)** ที่บันทึกไว้ตอนสมัครนำมา Import เข้าสู่ระบบใหม่อีกครั้งครับ</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-2', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-2', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                        <div class="survey-area hidden mt-3 pt-3 border-t border-dashed border-white/10 text-xs bg-black/20 p-3 rounded-lg">
+                            <p class="font-medium mb-2 text-indigo-300" data-translate="survey-head">ขอบคุณสำหรับข้อมูล โปรดเลือกเหตุผลเพื่อสถิติการปรับปรุงระบบ:</p>
+                            <label class="flex items-center gap-2 mb-1.5 cursor-pointer"><input type="radio" name="reason-2" value="unclear"> <span data-translate="reason-unclear">เนื้อหาไม่ชัดเจน เข้าใจยาก</span></label>
+                            <label class="flex items-center gap-2 mb-2 cursor-pointer"><input type="radio" name="reason-2" value="not-working"> <span data-translate="reason-not-working">ทำตามแล้วแต่ยังไม่สามารถแก้ปัญหาได้</span></label>
+                            <button onclick="submitSurvey('faq-2')" class="bg-indigo-500 hover:bg-indigo-600 px-3 py-1 rounded text-white font-medium block ml-auto transition" data-translate="btn-submit">ส่งแบบสำรวจ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 3 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-3">
+                    <button onclick="toggleFaq('faq-3')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q3">3. ฟังก์ชัน Digital Vault Legacy (การส่งต่อมรดก) ทำงานอย่างไร?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a3">ระบบทำงานในลักษณะ Smart Contract หรือสวิตช์ความปลอดภัยอัตโนมัติ (Dead Man's Switch) โดยผู้ใช้สามารถกำหนดระยะเวลาที่ระบบจะตรวจสอบการเข้าสู่ระบบ (เช่น 3 หรือ 6 เดือน) หากล่วงเลยระยะเวลาดังกล่าวและไม่มีการเคลื่อนไหว บัญชีและสินทรัพย์ดิจิทัลที่ระบุจะถูกส่งต่อไปยังที่อยู่กระเป๋าเงิน (Wallet Address) ของผู้รับสืบทอดที่ท่านตั้งค่าไว้ทันที</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-3', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-3', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 4 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-4">
+                    <button onclick="toggleFaq('faq-4')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q4">4. การกรอกวันเกิดในหน้าการตั้งค่าบัญชี สามารถแก้ไขได้หรือไม่ และอายุคำนวณอย่างไร?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a4">ท่านสามารถคลิกเปลี่ยน วัน เดือน ปีเกิด ได้โดยการกดที่สัญลักษณ์ปฏิทินในหน้า Setting เมื่อท่านจิ้มเปลี่ยนวันเกิดแล้ว ระบบ JavaScript จะคำนวณเลขอายุใหม่ให้สัมพันธ์กับปีปัจจุบันโดยอัตโนมัติทันที ทั้งนี้หากท่านเปลี่ยนใจและยังไม่กดปุ่ม "ยืนยัน" เมื่อทำการปิดแท็บ ข้อมูลทั้งหมดจะถูกรีเซ็ตกลับเป็นค่าเดิมที่มีอยู่ในฐานข้อมูลเพื่อความปลอดภัยครับ</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-4', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-4', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 5 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-5">
+                    <button onclick="toggleFaq('faq-5')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q5">5. โหมดสลับสกุลเงินแสดงผล (บาท / หยวน / ดอลลาร์) มีผลต่อมูลค่าคริปโตจริงไหม?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a5">ไม่มีผลกระทบต่อจำนวนสินทรัพย์คริปโตจริงของท่านครับ ฟังก์ชันปุ่มเฟืองในแดชบอร์ดหน้าสอง (หลังสลับปุ่มไข่ปลา) เป็นเพียงเครื่องมือคำนวณและแปลงค่าการแสดงผล (Fiat Conversion) เพื่ออำนวยความสะดวกในการเปรียบเทียบมูลทรัพย์สินในสกุลเงินสากลต่างๆ ตามอัตราแลกเปลี่ยนปัจจุบันเท่านั้น</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-5', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-5', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 6 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-6">
+                    <button onclick="toggleFaq('faq-6')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q6">6. โอนเหรียญผิดเครือข่ายบล็อกเชน (Wrong Network) สามารถกู้คืนได้ไหม?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a6">ไม่สามารถกู้คืนได้ครับ เนื่องจากการทำธุรกรรมบนระบบบล็อกเชนมีคุณสมบัติที่ไม่สามารถย้อนกลับหรือขอยกเลิกได้ (Irreversible) หากท่านโอนเหรียญผิดเครือข่าย สินทรัพย์นั้นจะหายไปอย่างถาวร โปรดระมัดระวังและตรวจสอบเงื่อนไขความสอดคล้องของ Network ปลายทางทุกครั้งก่อนยืนยันรายการ</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-6', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-6', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 7 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-7">
+                    <button onclick="toggleFaq('faq-7')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q7">7. ความปลอดภัยของระบบการเก็บรักษาข้อมูลส่วนบุคคลในโปรเจกต์นี้เป็นอย่างไร?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a7">BBlockWallet ปฏิบัติตามมาตรฐานและกฎหมายคุ้มครองข้อมูลส่วนบุคคล (PDPA) อย่างเคร่งครัด ข้อมูลของท่าน (เช่น อีเมล, วันเกิด) จะถูกเข้ารหัสความปลอดภัยขั้นสูง และถูกนำไปประมวลผลเพื่อวัตถุประสงค์ในการยืนยันตัวตนและการเปิดฟังก์ชันการสืบทอดมมรดกเท่านั้น โดยไม่มีการเปิดเผยข้อมูลแก่บุคคลภายนอกเชิงพาณิชย์</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-7', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-7', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 8 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-8">
+                    <button onclick="toggleFaq('faq-8')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q8">8. แพลตฟอร์ม BBlockWallet มีการคิดค่าธรรมเนียมการจัดการกระเป๋าเงินหรือไม่?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a8">ในปัจจุบันแพลตฟอร์มไม่มีการเรียกเก็บค่าธรรมเนียมบริการใดๆ ทั้งสิ้นในการเปิดกระเป๋าเงินหรือตั้งค่าระบบมรดก อย่างไรก็ตาม การโอนเหรียญผ่านบล็อกเชนจริงในอนาคตจะมีค่าธรรมเนียมเครือข่าย (Gas Fee / Network Fee) ซึ่งถูกเรียกเก็บโดยเครือข่ายบล็อกเชนหลักนั้นๆ โดยตรง ไม่ใช่รายได้ของทางแพลตฟอร์มครับ</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-8', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-8', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 9 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-9">
+                    <button onclick="toggleFaq('faq-9')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q9">9. ผู้รับสืบทอดมรดกจำเป็นต้องมีบัญชี BBlockWallet ด้วยหรือไม่?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a9">แนะนำให้มีครับ เพื่อความสะดวกในการตรวจเช็กและกดเคลมรับสินทรัพย์ผ่านระบบอินเทอร์เฟซที่ปลอดภัย อย่างไรก็ดี หากท่านระบุเป็นที่อยู่กระเป๋าเงินภายนอก (External Wallet Address) สิทธิ์ในการโอนย้ายเหรียญเมื่อถึงกำหนดเวลาเงื่อนไขมรดกจะยังคงทำงานโอนผ่านที่อยู่นั้นได้เช่นเดียวกันครับ</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-9', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-9', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ข้อ 10 -->
+                <div class="faq-item border border-white/10 bg-white/5 rounded-xl p-4 transition-all" id="faq-10">
+                    <button onclick="toggleFaq('faq-10')" class="w-full flex justify-between items-center text-left font-medium text-base md:text-lg focus:outline-none">
+                        <span data-translate="q10">10. หากระบบปิดแท็บหรือสแกนใบหน้าล้มเหลว ข้อมูลในกระเป๋าเงินจะปลอดภัยไหม?</span>
+                        <i class="fa-solid fa-plus faq-icon transition-transform duration-300 text-indigo-300 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-gray-200 text-sm font-light leading-relaxed">
+                        <p data-translate="a10">ปลอดภัยอย่างสมบูรณ์แบบครับ ข้อมูลสินทรัพย์ดิจิทัลทั้งหมดจะถูกจัดเก็บและผูกสิทธิ์อยู่บนบัญชีบัญชีแยกประเภทแบบกระจายศูนย์บล็อกเชน (Blockchain) การปิดหน้าจอหรือข้อผิดพลาดทางอุปกรณ์ปลายทางจะไม่ส่งผลเสียต่อมูลค่าเหรียญ ตราบใดที่ท่านยังคงจัดเก็บ Seed Phrase ไว้อย่างปลอดภัยในพื้นที่ออฟไลน์ครับ</p>
+                        <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-gray-300 feedback-area">
+                            <span data-translate="helpful-text">คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?</span>
+                            <div class="flex gap-2">
+                                <button onclick="voteFeedback('faq-10', true)" class="bg-emerald-500/20 hover:bg-emerald-500/40 border border-emerald-500/40 px-3 py-1 rounded-full transition" data-translate="btn-yes">มีประโยชน์ 👍</button>
+                                <button onclick="voteFeedback('faq-10', false)" class="bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 px-3 py-1 rounded-full transition" data-translate="btn-no">ไม่มีประโยชน์ 👎</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- กล่องลิงก์ช่องทางออฟฟิเชียลด้านล่าง -->
+            <div class="mt-12 pt-6 border-t border-white/20 text-center">
+                <p class="text-sm text-gray-300 mb-4" data-translate="contact-title">หากยังไม่พบวิธีแก้ปัญหา? สามารถติดต่อทีมพัฒนาโครงงานได้โดยตรง</p>
+                <div class="flex justify-center items-center gap-4">
+                    <a href="https://www.facebook.com/profile.php?id=61590876254203" target="_blank" class="flex items-center space-x-2 bg-[#1877F2]/20 hover:bg-[#1877F2]/40 border border-[#1877F2]/50 px-5 py-2 rounded-xl text-sm font-medium transition-all hover:-translate-y-0.5">
+                        <i class="fa-brands fa-facebook text-lg text-[#1877F2]"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="https://lin.ee/sALrE9O" target="_blank" class="flex items-center space-x-2 bg-[#06C755]/20 hover:bg-[#06C755]/40 border border-[#06C755]/50 px-5 py-2 rounded-xl text-sm font-medium transition-all hover:-translate-y-0.5">
+                        <i class="fa-brands fa-line text-lg text-[#06C755]"></i>
+                        <span>Line Official</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-6 text-center text-xs text-gray-400 border-t border-white/10 bg-black/10">
+        <span data-translate="footer-copy">Copyright © 2026 BBlockWallet.com. All rights reserved.</span>
+    </footer>
+
+    <!-- 🌟 ส่วนสคริปต์ JavaScript คุมกลไกปุ่มแปลภาษา คุมปุ่มสลับ Dark/Light Mode ครบถ้วน 🌟 -->
+    <script>
+        // Dictionary คลังแปลภาษาเก็บข้อความ TH/EN ทั้งหมดในหน้า Support
+        const translations = {
+            th: {
+                "nav-features": "Features", "nav-assets": "Assets", "nav-security": "Security", "nav-support": "Support", "nav-about": "About",
+                "page-title": "ศูนย์ช่วยเหลือและคำถามที่พบบ่อย (FAQ)",
+                "page-desc": "ค้นหาวิธีแก้ไขปัญหาเบื้องต้นเกี่ยวกับการใช้งานกระเป๋าเงินและมรดกดิจิทัล",
+                "helpful-text": "คำแนะนำนี้มีประโยชน์ต่อท่านหรือไม่?", "btn-yes": "มีประโยชน์ 👍", "btn-no": "ไม่มีประโยชน์ 👎",
+                "survey-head": "ขอบคุณสำหรับข้อมูล โปรดเลือกเหตุผลเพื่อสถิติการปรับปรุงระบบ:",
+                "reason-unclear": "เนื้อหาไม่ชัดเจน เข้าใจยาก", "reason-not-working": "ทำตามแล้วแต่ยังไม่สามารถแก้ปัญหาได้", "btn-submit": "ส่งแบบสำรวจ",
+                "contact-title": "หากยังไม่พบวิธีแก้ปัญหา? สามารถติดต่อทีมพัฒนาโครงงานได้โดยตรง",
+                "footer-copy": "Copyright © 2026 BBlockWallet.com. All rights reserved.",
+                "q1": "1. ทำไมระบบไม่คำนวณราคาเหรียญ Real-time ในบางช่วงเวลา?",
+                "a1": "ปัญหานี้มักเกิดจากการเชื่อมต่อ API อัตราแลกเปลี่ยนภายนอกเกิดความล่าช้า หรือเครือข่ายอินเทอร์เน็ตของท่านไม่เสถียร เบื้องต้นแนะนำให้ทดลองกดปุ่มรีเฟรช บริเวณข้างนาฬิกาบนหน้าแดชบอร์ด หรือเว้นระยะเวลา 30 วินาทีเพื่อให้ระบบโหลดข้อมูลชุดใหม่ครับ",
+                "q2": "2. หากลืมรหัสผ่าน Private Key หรือ Seed Phrase จะกู้คืนอย่างไร?",
+                "a2": "เนื่องจาก BBlockWallet ใช้ระบบความปลอดภัยความคุ้มครองสินทรัพย์แบบกระจายศูนย์ (Decentralized Wallet) ทางโปรเจกต์จะไม่มีการเก็บรหัสส่วนตัวใดๆ ไว้บนเซิร์ฟเวอร์หลัก หากท่านทำหาย จะไม่สามารถกู้คืนผ่านระบบได้ ท่านจำเป็นต้องใช้ Seed Phrase (วลีสำรอง 12 คำ) ที่บันทึกไว้ตอนสมัครนำมา Import เข้าสู่ระบบใหม่อีกครั้งครับ",
+                "q3": "3. ฟังก์ชัน Digital Vault Legacy (การส่งต่อมรดก) ทำงานอย่างไร?",
+                "a3": "ระบบทำงานในลักษณะ Smart Contract หรือสวิตช์ความปลอดภัยอัตโนมัติ (Dead Man's Switch) โดยผู้ใช้สามารถกำหนดระยะเวลาที่ระบบจะตรวจสอบการเข้าสู่ระบบ (เช่น 3 หรือ 6 เดือน) หากล่วงเลยระยะเวลาดังกล่าวและไม่มีการเคลื่อนไหว บัญชีและสินทรัพย์ดิจิทัลที่ระบุจะถูกส่งต่อไปยังที่อยู่กระเป๋าเงิน (Wallet Address) ของผู้รับสืบทอดที่ท่านตั้งค่าไว้ทันที",
+                "q4": "4. การกรอกวันเกิดในหน้าการตั้งค่าบัญชี สามารถแก้ไขได้หรือไม่ และอายุคำนวณอย่างไร?",
+                "a4": "ท่านสามารถคลิกเปลี่ยน วัน เดือน ปีเกิด ได้โดยการกดที่สัญลักษณ์ปฏิทินในหน้า Setting เมื่อท่านจิ้มเปลี่ยนวันเกิดแล้ว ระบบ JavaScript จะคำนวณเลขอายุใหม่ให้สัมพันธ์กับปีปัจจุบันโดยอัตโนมัติทันที ทั้งนี้หากท่านเปลี่ยนใจและยังไม่กดปุ่ม 'ยืนยัน' เมื่อทำการปิดแท็บ ข้อมูลทั้งหมดจะถูกรีเซ็ตกลับเป็นค่าเดิมที่มีอยู่ในฐานข้อมูลเพื่อความปลอดภัยครับ",
+                "q5": "5. โหมดสลับสกุลเงินแสดงผล (บาท / หยวน / ดอลลาร์) มีผลต่อมูลค่าคริปโตจริงไหม?",
+                "a5": "ไม่มีผลกระทบต่อจำนวนสินทรัพย์คริปโตจริงของท่านครับ ฟังก์ชันปุ่มเฟืองในแดชบอร์ดหน้าสอง (หลังสลับปุ่มไข่ปลา) เป็นเพียงเครื่องมือคำนวณและแปลงค่าการแสดงผล (Fiat Conversion) เพื่ออำนวยความสะดวกในการเปรียบเทียบมูลทรัพย์สินในสกุลเงินสากลต่างๆ ตามอัตราแลกเปลี่ยนปัจจุบันเท่านั้น",
+                "q6": "6. โอนเหรียญผิดเครือข่ายบล็อกเชน (Wrong Network) สามารถกู้คืนได้ไหม?",
+                "a6": "ไม่สามารถกู้คืนได้ครับ เนื่องจากการทำธุรกรรมบนระบบบล็อกเชนมีคุณสมบัติที่ไม่สามารถย้อนกลับหรือขอยกเลิกได้ (Irreversible) หากท่านโอนเหรียญผิดเครือข่าย สินทรัพย์นั้นจะหายไปอย่างถาวร โปรดระมัดระวังและตรวจสอบเงื่อนไขความสอดคล้องของ Network ปลายทางทุกครั้งก่อนยืนยันรายการ",
+                "q7": "7. ความปลอดภัยของระบบการเก็บรักษาข้อมูลส่วนบุคคลในโปรเจกต์นี้เป็นอย่างไร?",
+                "a7": "BBlockWallet ปฏิบัติตามมาตรฐานและกฎหมายคุ้มครองข้อมูลส่วนบุคคล (PDPA) อย่างเคร่งครัด ข้อมูลของท่าน (เช่น อีเมล, วันเกิด) จะถูกเข้ารหัสความปลอดภัยขั้นสูง และถูกนำไปประมวลผลเพื่อวัตถุประสงค์ในการยืนยันตัวตนและการเปิดฟังก์ชันการสืบทอดมรดกเท่านั้น โดยไม่มีการเปิดเผยข้อมูลแก่บุคคลภายนอกเชิงพาณิชย์",
+                "q8": "8. แพลตฟอร์ม BBlockWallet มีการคิดค่าธรรมเนียมการจัดการกระเป๋าเงินหรือไม่?",
+                "a8": "ในปัจจุบันแพลตฟอร์มไม่มีการเรียกเก็บค่าธรรมเนียมบริการใดๆ ทั้งสิ้นในการเปิดกระเป๋าเงินหรือตั้งค่าระบบมรดก อย่างไรก็ตาม การโอนเหรียญผ่านบล็อกเชนจริงในอนาคตจะมีค่าธรรมเนียมเครือข่าย (Gas Fee / Network Fee) ซึ่งถูกเรียกเก็บโดยเครือข่ายบล็อกเชนหลักนั้นๆ โดยตรง ไม่ใช่รายได้ของทางแพลตฟอร์มครับ",
+                "q9": "9. ผู้รับสืบทอดมรดกจำเป็นต้องมีบัญชี BBlockWallet ด้วยหรือไม่?",
+                "a9": "แนะนำให้มีครับ เพื่อความสะดวกในการตรวจเช็กและกดเคลมรับสินทรัพย์ผ่านระบบอินเทอร์เฟซที่ปลอดภัย อย่างไรก็ดี หากท่านระบุเป็นที่อยู่กระเป๋าเงินภายนอก (External Wallet Address) สิทธิ์ในการโอนย้ายเหรียญเมื่อถึงกำหนดเวลาเงื่อนไขมรดกจะยังคงทำงานโอนผ่านที่อยู่นั้นได้เช่นเดียวกันครับ",
+                "q10": "10. หากระบบปิดแท็บหรือสแกนใบหน้าล้มเหลว ข้อมูลในกระเป๋าเงินจะปลอดภัยไหม?",
+                "a10": "ปลอดภัยอย่างสมบูรณ์แบบครับ ข้อมูลสินทรัพย์ดิจิทัลทั้งหมดจะถูกจัดเก็บและผูกสิทธิ์อยู่บนบัญชีบัญชีแยกประเภทแบบกระจายศูนย์บล็อกเชน (Blockchain) การปิดหน้าจอหรือข้อผิดพลาดทางอุปกรณ์ปลายทางจะไม่ส่งผลเสียต่อมูลค่าเหรียญ ตราบใดที่ท่านยังคงจัดเก็บ Seed Phrase ไว้อย่างปลอดภัยในพื้นที่ออฟไลน์ครับ"
+            },
+            en: {
+                "nav-features": "Features", "nav-assets": "Assets", "nav-security": "Security", "nav-support": "Support", "nav-about": "About",
+                "page-title": "Help Center & FAQ",
+                "page-desc": "Find answers and basic solutions regarding your digital asset wallet and legacy management.",
+                "helpful-text": "Was this answer helpful to you?", "btn-yes": "Helpful 👍", "btn-no": "Not Helpful 👎",
+                "survey-head": "Thank you for feedback! Please select a reason for statistics:",
+                "reason-unclear": "The content is unclear or hard to understand", "reason-not-working": "Followed instructions but problem persists", "btn-submit": "Submit Survey",
+                "contact-title": "Still need help? You can directly contact our project developers via:",
+                "footer-copy": "Copyright © 2026 BBlockWallet.com. All rights reserved.",
+                "q1": "1. Why does the system temporarily fail to calculate real-time crypto prices?",
+                "a1": "This issue is usually due to latency in external exchange rate APIs or network instability. We recommend tapping the Refresh icon next to the clock on the dashboard or waiting 30 seconds for data sync.",
+                "q2": "2. If I lose my Private Key or Seed Phrase, how can I recover it?",
+                "a2": "Since BBlockWallet is a decentralized architecture, we do not store your private credentials on a central server. If lost, recovery is impossible via staff. You must use the 12-word Seed Phrase recorded during registration to import your account again.",
+                "q3": "3. How does the Digital Vault Legacy (Inheritance) feature operate?",
+                "a3": "It utilizes a Dead Man's Switch smart contract. Users define a check-in duration threshold (e.g., 3-6 months). If no login activity occurs past that window, designated assets transfer to the beneficiary's wallet address instantly.",
+                "q4": "4. Can I modify my birthdate in settings, and how is age computed?",
+                "a4": "Yes, you can alter the date using the calendar input in the Setting panel. JavaScript automatically recalculates your current age instantly. If you close the tab before clicking 'Confirm', values rollback to database states.",
+                "q5": "5. Does switching base currencies (THB / CNY / USD) affect my actual crypto balance?",
+                "a5": "No, it doesn't affect your crypto balance. The gear icon settings on page two of the dashboard are purely a fiat conversion visual layout tool for portfolio valuation convenience based on market indexes.",
+                "q6": "6. Can assets sent via the wrong blockchain network be retrieved?",
+                "a6": "No, blockchain network operations are legally irreversible. Sending tokens to an incompatible network layer results in permanent loss. Always double-check matching assets and layers before dispatching.",
+                "q7": "7. How is personal data privacy handled within this senior project?",
+                "a7": "BBlockWallet fully complies with standard Personal Data Protection Act (PDPA) requirements. Data like emails or birthdates undergo cryptographic security hashes for verification and legacy triggers without commercial exposures.",
+                "q8": "8. Does BBlockWallet impose administrative fees on its wallet services?",
+                "a8": "Currently, the wallet platform charges zero management fees for standard functions or legacy vaults. However, active transactions invoke blockchain validator fees (Gas/Network Fees) directly collected by networks.",
+                "q9": "9. Does the designated beneficiary require a BBlockWallet account?",
+                "a9": "It is highly recommended for interface interactions and secure asset claims. However, if an external public key address is designated, asset automation contracts will still successfully dispatch funds.",
+                "q10": "10. If the web tab crashes or face recognition fails, are wallet assets safe?",
+                "a10": "Completely secure. Crypto balances strictly reside locked on decentralized ledger chains. Physical app terminations or hardware camera bugs do not impair asset values as long as your Seed Phrase remains safe offline."
+            }
+        };
+
+        let currentLang = 'th';
+
+        // 🌟 กลไกเปลี่ยนภาษาทำงานสมบูรณ์ 100% 🌟
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'th' ? 'en' : 'th';
+            
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLang][key]) {
+                    // ดักเงื่อนไขพิเศษสำหรับส่วนข้อความที่มีไอคอนประกอบอยู่ด้านในตัวแปร
+                    if(key === 'a1') {
+                        element.innerHTML = currentLang === 'th' ? 
+                            `ปัญหานี้มักเกิดจากการเชื่อมต่อ API อัตราแลกเปลี่ยนภายนอกเกิดความล่าช้า หรือเครือข่ายอินเทอร์เน็ตของท่านไม่เสถียร เบื้องต้นแนะนำให้ทดลองกดปุ่มรีเฟรช (<i class="fa-solid fa-rotate text-xs"></i>) บริเวณข้างนาฬิกาบนหน้าแดชบอร์ด หรือเว้นระยะเวลา 30 วินาทีเพื่อให้ระบบโหลดข้อมูลชุดใหม่ครับ` :
+                            `This issue is usually due to latency in external exchange rate APIs or network instability. We recommend tapping the Refresh icon (<i class="fa-solid fa-rotate text-xs"></i>) next to the clock on the dashboard or waiting 30 seconds for data sync.`;
+                    } else {
+                        element.innerHTML = translations[currentLang][key];
+                    }
+                }
+            });
+            
+            document.getElementById('lang-label').innerText = currentLang === 'th' ? 'EN' : 'TH';
+        });
+
+        // 🌟 กลไกสลับโหมดมืด / โหมดสว่าง ทำงานสมบูรณ์ 100% 🌟
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.className = document.body.classList.contains('dark-mode') ? "fa-solid fa-sun text-yellow-400" : "fa-regular fa-moon";
+        });
+
+        // ฟังก์ชันระบบกาง-หุบคำถาม FAQ Accordion
+        function toggleFaq(id) {
+            const item = document.getElementById(id);
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        function voteFeedback(faqId, isPositive) {
+            const faqItem = document.getElementById(faqId);
+            const feedbackArea = faqItem.querySelector('.feedback-area');
+            const surveyArea = faqItem.querySelector('.survey-area');
+
+            if (isPositive) {
+                feedbackArea.innerHTML = `<span class='text-emerald-400 font-medium'><i class='fa-solid fa-circle-check'></i> ${currentLang === 'th' ? 'ขอบคุณสำหรับข้อเสนอแนะของท่าน!' : 'Thank you for your feedback!'}</span>`;
+                if(surveyArea) surveyArea.classList.add('hidden');
+            } else {
+                feedbackArea.classList.add('hidden');
+                if(surveyArea) surveyArea.classList.remove('hidden');
+            }
+        }
+
+        function submitSurvey(faqId) {
+            const faqItem = document.getElementById(faqId);
+            const surveyArea = faqItem.querySelector('.survey-area');
+            surveyArea.innerHTML = `<p class='text-amber-300 font-medium py-1'><i class='fa-solid fa-paper-plane'></i> ${currentLang === 'th' ? 'ส่งคำตอบเรียบร้อย ขอบคุณที่ช่วยเราพัฒนาระบบครับ' : 'Survey submitted, thank you for helping us improve!'}</p>`;
+            setTimeout(() => {
+                faqItem.classList.remove('open');
+            }, 2000);
+        }
+
+        // 🌟 เพิ่มกลไกการดักจับ Hash ID เพื่อเปิดกางและเลื่อนหน้าจอไปหา FAQ ข้อนั้นๆ อัตโนมัติ 🌟
+        window.addEventListener('DOMContentLoaded', () => {
+            // ดึงค่า Hash จาก URL (เช่น #faq-3)
+            const hash = window.location.hash;
+            
+            if (hash) {
+                // ค้นหา Element ของข้อ FAQ นั้นในหน้าเว็บ
+                const targetFaq = document.querySelector(hash);
+                
+                if (targetFaq && targetFaq.classList.contains('faq-item')) {
+                    // 1. สั่งเปิดกาง Accordion ข้อนั้นทันที
+                    targetFaq.classList.add('open');
+                    
+                    // 2. สั่งให้หน้าจอเลื่อน (Smooth Scroll) ไปหาข้อนั้นเบาๆ เพื่อความสวยงาม
+                    setTimeout(() => {
+                        targetFaq.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300); // หน่วงเวลาเล็กน้อยเพื่อให้ CSS Transition ทำงานเสร็จ
+                }
+            }
+        });
+    </script>
+</body>
+</html>
