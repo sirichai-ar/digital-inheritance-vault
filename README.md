@@ -13,25 +13,25 @@ The system combines off-chain monitoring for fast user experience with on-chain 
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- 🔐 **Non-Custodial Vault:** Assets remain entirely secured by smart contracts until execution conditions are met.
-- ⏳ **Dead Man's Switch Engine:** Automated inheritance trigger based on verifiable account inactivity timeouts.
-- 📊 **Real-time Web2 Indexing:** Fast off-chain API indexing for balances, vault status, and beneficiary management.
-- 🛡️ **Production-Ready Infrastructure:** Scalable backend deployment configured with PM2 process management and Nginx reverse proxy.
-- 🧪 **System Testing:** Unit and integration ngroktesting protocols ensuring smart contract and backend reliability.
-
----
-
-## 👥 Project Team & Credits
-
-* **Sirichai T.** ([@your-github-username](https://github.com/your-github-username)) — **Project Lead, Systems Architect & PM** *(Hybrid Architecture, Backend, PM2/Nginx Deployment, Agile/Scrum Management via Jira)*
-* **Team Member 1** ([@username1](https://github.com/username1)) — **Smart Contract Developer** *(Solidity, Vault Logic & Escrow)*
-* **Team Member 2** ([@username2](https://github.com/username2)) — **Frontend & Integration** *(Dashboard UI, Web3.js / Ethers.js)*
+-  **Non-Custodial Vault:** Assets remain entirely secured by smart contracts until execution conditions are met.
+-  **Dead Man's Switch Engine:** Automated inheritance trigger based on verifiable account inactivity timeouts.
+-  **Real-time Web2 Indexing:** Fast off-chain API indexing for balances, vault status, and beneficiary management.
+-  **Production-Ready Infrastructure:** Scalable backend deployment configured with PM2 process management and Nginx reverse proxy.
+-  **System Testing:** Unit and integration ngrok testing protocols ensuring smart contract and backend reliability.
 
 ---
 
-## 🛠️ Tech Stack & Tools
+## Project Team & Credits
+
+- **[@sirichai-ar](https://github.com/sirichai-ar)** - **Project Lead, Systems Architect & PM** *(Hybrid Architecture, Smart Contracts, Full-Stack Dev)*
+- **[@friend1-username](https://github.com/friend1-username)** - **Black-Box Security & QA Specialist** *(Black-Box Pentesting, Security Audit)*
+- **[@friend2-username](https://github.com/friend2-username)** - **White-Box & API Testing Specialist** *(White-Box Audit, UI Testing, API Security)*
+
+---
+
+## Tech Stack & Tools
 
 - **Backend & Infrastructure:** Node.js, Express, ngrok, PM2, Firebase / Database
 - **Web3 & Blockchain:** Solidity, EVM Testnet, MetaMask, Web3.js / Ethers.js
