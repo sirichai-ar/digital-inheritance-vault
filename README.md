@@ -26,7 +26,7 @@ The system combines off-chain monitoring for fast user experience with on-chain 
 ## Project Team & Credits
 
 - **[@sirichai-ar](https://github.com/sirichai-ar)** - **Project Lead, Systems Architect & PM** *(Hybrid Architecture, Smart Contracts, Full-Stack Dev)*
-- **[@friend1-username](https://github.com/friend1-username)** - **Black-Box Security & QA Specialist** *(Black-Box Pentesting, Security Audit)*
+- **[@B6702564](https://github.com/B6702564)** - **Black-Box Security & QA Specialist** *(Black-Box Pentesting, Security Audit)*
 - **[@friend2-username](https://github.com/friend2-username)** - **White-Box & API Testing Specialist** *(White-Box Audit, UI Testing, API Security)*
 
 ---
