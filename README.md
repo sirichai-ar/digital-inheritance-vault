@@ -27,7 +27,7 @@ The system combines off-chain monitoring for fast user experience with on-chain 
 
 - **[@sirichai-ar](https://github.com/sirichai-ar)** - **Project Lead, Systems Architect & PM** *(Hybrid Architecture, Smart Contracts, Full-Stack Dev)*
 - **[@B6702564](https://github.com/B6702564)** - **Black-Box Security & QA Specialist** *(Black-Box Pentesting, Security Audit)*
-- **[@worawat8848-pro](https://github.com/friend2-username)** - **White-Box & API Testing Specialist** *(White-Box Audit, UI Testing, API Security)*
+- **[@worawat8848-pro](https://github.com/worawat8848-pro)** - **White-Box & API Testing Specialist** *(White-Box Audit, UI Testing, API Security)*
 
 ---
 
